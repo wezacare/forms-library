@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -6,19 +7,12 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
-//    alias(libs.plugins.ksp)
-//    alias(libs.plugins.room)
-//    alias(libs.plugins.googleGmsGoogleServices)
-//    alias(libs.plugins.googleFirebaseCrashlytics)
 }
+
 kotlin {
     androidTarget {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions {
-                    jvmTarget.set(JvmTarget.JVM_1_8)
-                }
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
     
@@ -28,7 +22,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
-            baseName = "shared"
+            baseName = "library"
             isStatic = true
         }
     }
@@ -38,10 +32,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
 
-//            implementation(libs.koin.android)
-//            implementation(libs.koin.androidx.compose)
-//            implementation(libs.ktor.client.okhttp)
-//        }
             nativeMain.dependencies {
 //                implementation(libs.ktor.client.darwin)
             }
@@ -59,20 +49,6 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodel)
                 implementation(libs.androidx.lifecycle.runtime.compose)
                 implementation(libs.kotlinx.serialization.json)
-//                implementation(libs.navigation.compose)
-//            implementation(libs.koin.compose)
-//            implementation(libs.koin.compose.viewmodel)
-//            api(libs.koin.core)
-//
-//            implementation(libs.bundles.ktor)
-//            implementation(libs.bundles.coil)
-
-//            api(libs.datastore)
-//            api(libs.datastore.preferences)
-
-//            implementation(libs.androidx.room.runtime)
-//            implementation(libs.sqlite.bundled)
-//        }
 
             }
         }
@@ -91,6 +67,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
+
 dependencies {
     implementation(libs.androidx.material3.android)
     debugImplementation(compose.uiTooling)

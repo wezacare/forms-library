@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "forms"
-include(":shared")
+include(":library")
