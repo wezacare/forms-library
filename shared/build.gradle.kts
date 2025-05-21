@@ -1,0 +1,97 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinxSerialization)
+//    alias(libs.plugins.ksp)
+//    alias(libs.plugins.room)
+//    alias(libs.plugins.googleGmsGoogleServices)
+//    alias(libs.plugins.googleFirebaseCrashlytics)
+}
+kotlin {
+    androidTarget {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_1_8)
+                }
+            }
+        }
+    }
+    
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach {
+        it.binaries.framework {
+            baseName = "shared"
+            isStatic = true
+        }
+    }
+
+    sourceSets {
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+
+//            implementation(libs.koin.android)
+//            implementation(libs.koin.androidx.compose)
+//            implementation(libs.ktor.client.okhttp)
+//        }
+            nativeMain.dependencies {
+//                implementation(libs.ktor.client.darwin)
+            }
+            commonMain.dependencies {
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.materialIconsExtended)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+
+                implementation(libs.androidx.lifecycle.viewmodel)
+                implementation(libs.androidx.lifecycle.runtime.compose)
+                implementation(libs.kotlinx.serialization.json)
+//                implementation(libs.navigation.compose)
+//            implementation(libs.koin.compose)
+//            implementation(libs.koin.compose.viewmodel)
+//            api(libs.koin.core)
+//
+//            implementation(libs.bundles.ktor)
+//            implementation(libs.bundles.coil)
+
+//            api(libs.datastore)
+//            api(libs.datastore.preferences)
+
+//            implementation(libs.androidx.room.runtime)
+//            implementation(libs.sqlite.bundled)
+//        }
+
+            }
+        }
+
+    }
+}
+
+android {
+    namespace = "com.wezacare.forms"
+    compileSdk = 35
+    defaultConfig {
+        minSdk = 24
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+dependencies {
+    implementation(libs.androidx.material3.android)
+    debugImplementation(compose.uiTooling)
+}
