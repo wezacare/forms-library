@@ -61,12 +61,12 @@ android {
     ndkVersion = "21.1.6528147"
 }
 
+
+
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-    signAllPublications()
-
-    coordinates(group.toString(), "library", version.toString())
+    coordinates("io.github.samoramachel", "forms.library", libs.versions.versionName.get())
 
     pom {
         name = "Forms Library"
@@ -83,7 +83,7 @@ mavenPublishing {
         developers {
             developer {
                 id = "wezacare.org"
-                name = "Wezacare Solutions"
+                name = "Samora Machel"
                 url = "dev@wezacare.org"
             }
         }
@@ -93,6 +93,8 @@ mavenPublishing {
             developerConnection = "scm:git:ssh://git@github.com/wezacare/forms-library.git"
         }
     }
+
+    signAllPublications()
 }
 
 dependencies {

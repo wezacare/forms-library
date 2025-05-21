@@ -7,6 +7,8 @@ captures
 .externalNativeBuild
 .cxx
 local.properties
+secret.properties
+secret.gpg
 xcuserdata
 /local.properties
 /.idea/deploymentTargetDropDown.xml
@@ -19,4 +21,4 @@ xcuserdata
 /.idea/assetWizardSettings.xml
 /build
 /captures
-key.gpg
+library/key.gpg
