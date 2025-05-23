@@ -99,5 +99,6 @@ mavenPublishing {
 
 dependencies {
     implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.runtime.android)
     debugImplementation(compose.uiTooling)
 }
