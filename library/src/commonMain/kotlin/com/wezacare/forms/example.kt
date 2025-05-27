@@ -1,40 +1,36 @@
 package com.wezacare.forms
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.wezacare.forms.app.DynamicFormLazy
-import com.wezacare.forms.app.FormField
-import com.wezacare.forms.app.FormState
+import com.wezacare.forms.app.DynamicForm
+import com.wezacare.forms.app.components.FormCheckBoxInput
+import com.wezacare.forms.app.components.FormElement
+import com.wezacare.forms.app.components.FormGroup
+import com.wezacare.forms.app.components.FormGroupHeader
+import com.wezacare.forms.app.components.FormTextInput
 
 
 @Composable
 fun FormScreen() {
-    val formSchema: List<FormField> = listOf(
-        FormField.Banner(title = "Nutritional and Diet Plan Form",
+
+
+    val formSchema = listOf(
+        FormGroupHeader(id = "header", title = "Nutritional and Diet Plan Form",
             description = "The Wezacare Education plan is designed for online and in-person " +
                     "classrooms and educational programs. We need a few more details to verify that you're" +
                     "a student or educator in an eligible school or course",
-            key = "banner"
         ),
-        FormField.Text(label = "What is your full name", key = "full_name", required = true),
-        FormField.Text(label = "What is your email address", key = "email", required = true)
+//        FormTextInput(id="name", label = "What is your Full Name?", placeholder = "Your name", value="", onValueChange = {}),
+        FormTextInput(id="email", label = "What is your Email Address?", placeholder = "Your Email Address", value="", onValueChange = {}),
+        FormGroup(id = "", title = "Demographic Information", children = listOf(
+            FormTextInput(id = "", required = true, label = "What is your first name?", placeholder = "Your answer", value = "", onValueChange = {}) as FormElement<Any>,
+            FormTextInput(id = "", label = "What is your Age?", placeholder = "Your answer", value = "", onValueChange = {}) as FormElement<Any>
+        )),
+        FormCheckBoxInput(id = "", required = true, label = "Which of the following individuals reside in your household", subLabel = "(Select all that apply)",
+            optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian"), onValueChange = {}
+        )
+
     )
 
-    val formState = FormState(formSchema)
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        DynamicFormLazy(
-            fields = formSchema,
-            formState = formState
-        )
-    }
+    DynamicForm(formSchema as List<FormElement<Any>>)
 
 }
