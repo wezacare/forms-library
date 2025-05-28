@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
@@ -35,12 +36,9 @@ data class FormOptionInput(
     override val id: String,
     override val label: String,
     val optionList: List<String>,
-    val onValueChange: (Int) -> Unit,
     override val placeholder: String = "",
     val subLabel: String? = null,
     override val required: Boolean = false,
-    override val value: Int = -1,
-    override val error: String? = null,
     override val validators: List<ValidationRule> = emptyList(),
 ): FormField<Int> {
     override fun validate(value: Int): String? {
@@ -56,7 +54,7 @@ data class FormOptionInput(
         isSelected: Boolean,
         onClick: () -> Unit,
         modifier: Modifier = Modifier,
-        selectedTint: Color = Color.Gray.copy(0.6f),
+        selectedTint: Color = Color.Blue.copy(0.6f),
         defaultTint: Color = Color.Gray.copy(0.6f),
     ) {
         Row(
@@ -84,15 +82,19 @@ data class FormOptionInput(
 
     @Composable
     override fun Render(
-        formState: MutableMap<String, Int>,
-        errorState: MutableMap<String, String?>
+        values: Map<String, Any>,
+        onValueChange: (String, Int) -> Unit,
+        errors: Map<String, String?>
     ) {
+        val value = values[id] as? Int ?: -1
+        val error = errors[id]
+
         Column (
             modifier = Modifier
                 .background(Color.White, MaterialTheme.shapes.large)
                 .clip(MaterialTheme.shapes.large)
                 .border(1.dp,
-                    if(!error.isNullOrBlank()) FormBorderGray else FormErrorRed,
+                    if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
                     MaterialTheme.shapes.large
                 )
                 .padding(vertical = 12.dp, horizontal = 16.dp)
@@ -131,7 +133,7 @@ data class FormOptionInput(
                     optionTitle = item,
                     isSelected = index == value,
                     onClick = {
-                        onValueChange(index)
+                        onValueChange(id, index)
                     },
                 )
             }

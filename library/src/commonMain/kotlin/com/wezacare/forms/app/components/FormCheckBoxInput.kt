@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
@@ -35,12 +36,9 @@ data class FormCheckBoxInput (
     override val id: String,
     override val label: String,
     val optionList: List<String>,
-    override val value: List<Int> = emptyList(),
-    val onValueChange: (List<Int>) -> Unit,
     val subLabel: String? = null,
     override val placeholder: String = "",
     override val required: Boolean = false,
-    override val error: String? = null,
     override val validators: List<ValidationRule> = emptyList()
 ): FormField<List<Int>> {
 
@@ -53,10 +51,12 @@ data class FormCheckBoxInput (
 
     @Composable
     override fun Render(
-        formState: MutableMap<String, List<Int>>,
-        errorState: MutableMap<String, String?>
+        values: Map<String, Any>,
+        onValueChange: (String, List<Int>) -> Unit,
+        errors: Map<String, String?>
     ) {
-        val _checkedOptionsList = mutableListOf<Int>()
+        val value = values[id] as? MutableList<Int> ?: mutableListOf()
+        val error = errors[id]
         Column (
             modifier = Modifier
                 .background(Color.White, MaterialTheme.shapes.large)
@@ -102,11 +102,11 @@ data class FormCheckBoxInput (
                     isSelected = index in value,
                     onClick = {
                         if(index in value) {
-                            _checkedOptionsList.remove(index)
+                            value.remove(index)
                         } else {
-                            _checkedOptionsList.add(index)
+                            value.add(index)
                         }
-                        onValueChange(_checkedOptionsList)
+                        onValueChange(id, value)
                     },
                 )
             }
@@ -119,7 +119,7 @@ data class FormCheckBoxInput (
         isSelected: Boolean,
         onClick: () -> Unit,
         modifier: Modifier = Modifier,
-        selectedTint: Color = Color.Gray.copy(0.6f),
+        selectedTint: Color = Color.Blue.copy(0.6f),
         defaultTint: Color = Color.Gray.copy(0.6f)
     ) {
         Row(

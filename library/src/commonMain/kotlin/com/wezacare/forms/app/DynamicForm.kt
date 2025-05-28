@@ -1,6 +1,5 @@
 package com.wezacare.forms.app
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -9,67 +8,62 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wezacare.forms.app.components.FormElement
-import com.wezacare.forms.app.components.FormField
+import com.wezacare.forms.app.model.FormElement
+import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.components.FormGroup
 
 @Composable
 fun DynamicForm(
-    elements: List<FormElement<Any>>
+    elements: List<FormElement<Any>>,
 ) {
-    val formState = remember { mutableStateMapOf<String, String>() }
+    val formState = remember { mutableStateMapOf<String, Any>() }
     val errorState = remember { mutableStateMapOf<String, String?>() }
+
+    fun validateForm(): Boolean {
+        errorState.clear()
+        var valid = true
+
+        for(component in elements) {
+            if(component is FormField) {
+                val value = formState[component.id] as Any
+                val error = component.validate(value)
+                errorState[component.id] = error
+                if (error != null) valid = false
+            }
+        }
+        return valid
+    }
 
     LazyColumn(
         modifier = Modifier.padding(16.dp)
     ) {
+        item {
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                text = "Form Data: -> ${formState}"
+            )
+        }
 
         items(elements) { element ->
-            element.Render(formState.toMutableMap(), errorState.toMutableMap())
+            element.Render(formState, { id, value -> formState[id] = value }, errorState)
             Spacer(Modifier.size(12.dp))
         }
         item {
+            var isValid = true
             Button(onClick = {
-                val valid = validateAll(elements, formState, errorState)
+                val valid = validateForm()
+                isValid = valid
                 if (valid) {
                     println("Submitted: $formState")
                 }
             }) {
-                Text("Submit")
+                Text("Submit, $isValid")
             }
         }
     }
 }
 
-private fun validateAll(
-    elements: List<FormElement<Any>>,
-    formState: MutableMap<String, String>,
-    errorState: MutableMap<String, String?>
-): Boolean {
-    var allValid = true
-
-    elements.forEach { formElement ->
-        when(formElement) {
-            is FormField -> {
-                val value = formState[formElement.id] ?: ""
-                val error = formElement.validate(value)
-                errorState[formElement.id] = error
-                if (error != null) allValid = false
-            }
-            is FormGroup -> {
-                val valid = validateAll(formElement.children, formState, errorState)
-                if (!valid) allValid = false
-            }
-            else -> {
-
-            }
-        }
-    }
-
-    return allValid
-}

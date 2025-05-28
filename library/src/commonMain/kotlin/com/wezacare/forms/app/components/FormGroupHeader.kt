@@ -19,6 +19,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.model.FormDecorator
+import com.wezacare.forms.app.model.FormElement
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
 
@@ -26,14 +28,16 @@ data class FormGroupHeader (
     override val id: String,
     val title: String,
     val description: String,
-    val color: Color = Color.Blue
-): FormElement<String> {
+    val color: Color = Color.Blue,
+): FormDecorator {
 
     @Composable
     override fun Render(
-        formState: MutableMap<String, String>,
-        errorState: MutableMap<String, String?>
+        values: Map<String, Any>,
+        onValueChange: (String, String) -> Unit,
+        errors: Map<String, String?>
     ) {
+
         Column {
             Column(
                 modifier = Modifier

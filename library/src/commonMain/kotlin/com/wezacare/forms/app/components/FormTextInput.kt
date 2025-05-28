@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
@@ -32,25 +33,26 @@ import com.wezacare.forms.core.presentation.bottomBorder
 data class FormTextInput(
     override val id: String,
     override val label: String,
-    override val placeholder: String = "",
-    override val value: String,
+    override val placeholder: String? = "",
     override val required: Boolean = false,
-    override val error: String? = null,
-    val onValueChange: (String) -> Unit = {},
     override val validators: List<ValidationRule> = emptyList()
 ): FormField<String> {
     override fun validate(value: String): String? {
-        if (required && value.isBlank()) {
-            return "$label is required"
+        if (required && value.toString().isBlank()) {
+            return "Field is required"
         }
-        return validators.firstNotNullOfOrNull { it(value) }
+        return validators.firstNotNullOfOrNull { it(value.toString()) }
     }
 
     @Composable
     override fun Render(
-        formState: MutableMap<String, String>,
-        errorState: MutableMap<String, String?>
+        values: Map<String, Any>,
+        onValueChange: (String, String) -> Unit,
+        errors: Map<String, String?>
     ) {
+
+        val value = values[id] as? String
+        val error = errors[id]
 
         Column (
             modifier = Modifier
@@ -91,11 +93,9 @@ data class FormTextInput(
                         1.dp,
                         if(error.isNullOrBlank()) FormBorderGray else FormErrorRed
                     ),
-                value = formState[id] ?: value,
+                value = value ?: "",
                 onValueChange = {
-                    formState[id] = it
-
-                    onValueChange(id)
+                    onValueChange(id, it)
                 },
                 cursorBrush = SolidColor(Color.DarkGray),
                 decorationBox = { innerTextField ->
@@ -104,7 +104,7 @@ data class FormTextInput(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-                        if(value.isBlank()) {
+                        if(value.isNullOrBlank()) {
                             Text(
                                 text = placeholder ?: "",
                                 color = FormBorderGray

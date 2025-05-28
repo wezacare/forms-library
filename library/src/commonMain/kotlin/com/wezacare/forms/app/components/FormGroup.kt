@@ -3,7 +3,6 @@ package com.wezacare.forms.app.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,18 +15,27 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.model.FormElement
+import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.presentation.FormBorderGray
 
 data class FormGroup(
     override val id: String,
-    val title: String,
-    val children: List<FormElement<Any>> = emptyList()
-): FormElement<Any> {
+    override val label: String,
+    val children: List<FormField<Any>> = emptyList()
+): FormField<Any> {
+    override val placeholder: String? = null
+    override val required: Boolean = false
+    override val validators: List<ValidationRule> = emptyList()
+
+    override fun validate(value: Any): String? = null
+
     @Composable
     override fun Render(
-        formState: MutableMap<String, Any>,
-        errorState: MutableMap<String, String?>
+        values: Map<String, Any>,
+        onValueChange: (String, Any) -> Unit,
+        errors: Map<String, String?>
     ) {
         Column(
             modifier = Modifier
@@ -39,12 +47,12 @@ data class FormGroup(
         ) {
             Text(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                text = title,
+                text = label,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.size(8.dp))
             children.forEach { child ->
-                child.Render(formState, errorState)
+                child.Render(values, onValueChange, errors)
                 Spacer(modifier = Modifier.size(8.dp))
             }
         }
