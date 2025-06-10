@@ -18,11 +18,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.presentation.FormBorderGray
@@ -38,10 +40,10 @@ data class FormTextInput(
     override val validators: List<ValidationRule> = emptyList()
 ): FormField<String> {
     override fun validate(value: String): String? {
-        if (required && value.toString().isBlank()) {
+        if (required && value.isBlank()) {
             return "Field is required"
         }
-        return validators.firstNotNullOfOrNull { it(value.toString()) }
+        return validators.firstNotNullOfOrNull { it(value) }
     }
 
     @Composable
@@ -56,13 +58,13 @@ data class FormTextInput(
 
         Column (
             modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.large)
-                .clip(MaterialTheme.shapes.large)
+                .background(Color.White, MaterialTheme.shapes.small)
+                .clip(MaterialTheme.shapes.small)
                 .border(1.dp,
                     if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.large
+                    MaterialTheme.shapes.small
                 )
-                .padding(vertical = 12.dp, horizontal = 16.dp)
+                .padding(vertical = 10.dp, horizontal = 12.dp)
                 .fillMaxWidth()
         ) {
             if(!error.isNullOrBlank()) {
@@ -82,32 +84,35 @@ data class FormTextInput(
                         }
                     }
                 },
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Normal
             )
             Spacer(modifier = Modifier.size(3.dp))
 
             BasicTextField(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(bottom = 6.dp)
+                    .padding(bottom = 4.dp)
                     .bottomBorder(
-                        1.dp,
+                        0.8.dp,
                         if(error.isNullOrBlank()) FormBorderGray else FormErrorRed
                     ),
                 value = value ?: "",
                 onValueChange = {
                     onValueChange(id, it)
                 },
+                textStyle = TextStyle(
+                    fontSize = 12.sp
+                ),
                 cursorBrush = SolidColor(Color.DarkGray),
                 decorationBox = { innerTextField ->
                     Row(
-                        modifier = Modifier.padding(vertical = 8.dp),
+                        modifier = Modifier.padding(top = 8.dp, bottom = 5.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-
                         if(value.isNullOrBlank()) {
                             Text(
                                 text = placeholder ?: "",
-                                color = FormBorderGray
+                                color = FormBorderGray,
+                                fontSize = 12.sp
                             )
                         } else {
                             innerTextField()

@@ -3,15 +3,15 @@ package com.wezacare.forms.app.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.RadioButtonChecked
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
+import androidx.compose.material.icons.outlined.AddPhotoAlternate
+import androidx.compose.material.icons.outlined.Videocam
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,73 +26,36 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
-import com.wezacare.forms.core.Icons.MyIconPack
-import com.wezacare.forms.core.Icons.myiconpack.RadioButtonChecked
-import com.wezacare.forms.core.Icons.myiconpack.RadioButtonUnchecked
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
-import com.wezacare.forms.core.presentation.SubtitleGray
 
-data class FormOptionInput(
+data class FormVideoInput(
     override val id: String,
     override val label: String,
-    val optionList: List<String>,
-    override val placeholder: String = "",
-    val subLabel: String? = null,
+    override val placeholder: String? = "",
     override val required: Boolean = false,
-    override val validators: List<ValidationRule> = emptyList(),
-): FormField<Int> {
-    override fun validate(value: Int): String? {
-        if (required && value == -1) {
-            return "Field cannot be empty"
+    override val validators: List<ValidationRule> = emptyList()
+): FormField<String> {
+    override fun validate(value: String): String? {
+        if (required && value.isBlank()) {
+            return "Field is required"
         }
-        return null
-    }
-
-    @Composable
-    private fun OptionItem(
-        optionTitle: String,
-        isSelected: Boolean,
-        onClick: () -> Unit,
-        modifier: Modifier = Modifier,
-        selectedTint: Color = Color.Blue.copy(0.6f),
-        defaultTint: Color = Color.Gray.copy(0.6f),
-    ) {
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(end = 30.dp)
-                .clickable { onClick() },
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Icon(
-                modifier = Modifier
-                    .size(26.dp)
-                    .padding(vertical = 2.dp)
-                    .padding(end = 8.dp),
-                imageVector = if(isSelected) MyIconPack.RadioButtonChecked else
-                    MyIconPack.RadioButtonUnchecked,
-                contentDescription = "Radio button",
-                tint = if (isSelected) selectedTint else defaultTint
-            )
-            Text(
-                text = optionTitle
-            )
-        }
+        return validators.firstNotNullOfOrNull { it(value) }
     }
 
     @Composable
     override fun Render(
         values: Map<String, Any>,
-        onValueChange: (String, Int) -> Unit,
+        onValueChange: (String, String) -> Unit,
         errors: Map<String, String?>
     ) {
-        val value = values[id] as? Int ?: -1
+        val value = values[id] as? String
         val error = errors[id]
 
-        Column (
+        Column(
             modifier = Modifier
                 .background(Color.White, MaterialTheme.shapes.small)
                 .clip(MaterialTheme.shapes.small)
@@ -100,7 +63,7 @@ data class FormOptionInput(
                     if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
                     MaterialTheme.shapes.small
                 )
-                .padding(vertical = 12.dp, horizontal = 16.dp)
+                .padding(vertical = 10.dp, horizontal = 12.dp)
                 .fillMaxWidth()
         ) {
             if(!error.isNullOrBlank()) {
@@ -120,28 +83,49 @@ data class FormOptionInput(
                         }
                     }
                 },
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Normal
             )
-            if(!subLabel.isNullOrBlank()) {
+
+            if(value.isNullOrBlank()) {
                 Text(
-                    modifier = Modifier.padding(vertical = 2.dp),
-                    text = subLabel,
-                    color = SubtitleGray,
-                    fontWeight = FontWeight.SemiBold
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    text = placeholder ?: "",
+                    color = FormBorderGray,
+                    fontSize = 13.sp
                 )
             }
-            Spacer(modifier = Modifier.size(3.dp))
-            optionList.forEachIndexed { index, item ->
-                OptionItem(
-                    optionTitle = item,
-                    isSelected = index == value,
-                    onClick = {
-                        onValueChange(id, index)
-                    },
+            Row(
+                modifier = Modifier
+                    .background(Color.White, MaterialTheme.shapes.small)
+                    .border(1.05.dp,
+                        if(error.isNullOrBlank()) FormBorderGray.copy(alpha = 0.5f) else FormErrorRed,
+                        MaterialTheme.shapes.small
+                    )
+                    .clip(MaterialTheme.shapes.small)
+                    .clickable {  }
+                    .padding(vertical = 2.dp, horizontal = 12.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(vertical = 2.dp)
+                        .padding(end = 8.dp),
+                    imageVector = Icons.Outlined.Videocam,
+                    contentDescription = "Video Input",
+                    tint = Color.DarkGray
+                )
+                Text(
+                    text = "Choose Video",
+                    color = Color.DarkGray,
+                    fontSize = 13.sp
                 )
             }
 
         }
+
     }
 
 }

@@ -11,25 +11,27 @@ import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.model.FormElement
 import com.wezacare.forms.app.components.FormGroup
 import com.wezacare.forms.app.components.FormGroupHeader
+import com.wezacare.forms.app.components.FormImageInput
 import com.wezacare.forms.app.components.FormTextInput
+import com.wezacare.forms.app.components.FormVideoInput
 import com.wezacare.forms.app.model.FormField
 
 
-@Preview(showBackground = true)
-@Composable
-private fun PreviewFormGroup() {
-    Column(
-        modifier = Modifier.padding(16.dp)
-    ) {
-        FormGroup(
-            id = "",
-            label = "Demographic Information",
-            children = listOf(
-                FormTextInput(id = "", label = "What is your first name?", placeholder = "Your answer" ) as FormField<Any>
-            )
-        )
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//private fun PreviewFormGroup() {
+//    Column(
+//        modifier = Modifier.padding(16.dp)
+//    ) {
+//        FormGroup(
+//            id = "",
+//            label = "Demographic Information",
+//            children = listOf(
+//                FormTextInput(id = "", label = "What is your first name?", placeholder = "Your answer" ) as FormField<Any>
+//            )
+//        )
+//    }
+//}
 
 @Preview(showBackground = true)
 @Composable
@@ -37,13 +39,17 @@ private fun PreviewFormBanner() {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
+        val formData = remember { mutableStateMapOf<String, String>() }
+        val errors = remember { mutableStateMapOf<String, String>() }
+
         FormGroupHeader(
             id = "header",
             title = "Nutritional and Diet Plan Form",
             description = "The Wezacare Education plan is designed for online and in-person " +
                     "classrooms and educational programs. We need a few more details to verify that you're" +
-                    "a student or educator in an eligible school or course"
-        )
+                    "a student or educator in an eligible school or course",
+            pageTitle = "Page 1 of 1"
+        ).Render(formData, { id, value  -> formData[id] = value }, errors)
 
     }
 }
@@ -62,6 +68,36 @@ private fun PreviewFormTextInput() {
             .Render(formData, { id, value  -> formData[id] = value }, errors)
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewFormImageInput() {
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        val formData = remember { mutableStateMapOf<String, String>() }
+        val errors = remember { mutableStateMapOf<String, String>() }
+
+        FormImageInput(id = "image", label = "Profile Picture", placeholder = "Select one image from the drive", required = true)
+            .Render(formData, { id, value -> formData[id] = value }, errors)
+
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewFormVideoInput() {
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        val formData = remember { mutableStateMapOf<String, String>() }
+        val errors = remember { mutableStateMapOf<String, String>() }
+
+        FormVideoInput(id = "video", label = "Introduction Video", placeholder = "Select one video from the drive", required = true)
+            .Render(formData, {id, value -> }, errors)
+    }
+}
+
 
 @Preview(showBackground = true)
 @Composable

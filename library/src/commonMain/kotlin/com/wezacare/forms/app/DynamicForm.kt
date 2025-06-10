@@ -41,13 +41,6 @@ fun DynamicForm(
     LazyColumn(
         modifier = Modifier.padding(16.dp)
     ) {
-        item {
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = "Form Data: -> ${formState}"
-            )
-        }
-
         items(elements) { element ->
             element.Render(formState, { id, value -> formState[id] = value }, errorState)
             Spacer(Modifier.size(12.dp))

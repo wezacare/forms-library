@@ -6,11 +6,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,12 +27,14 @@ import com.wezacare.forms.app.model.FormDecorator
 import com.wezacare.forms.app.model.FormElement
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
+import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormGroupHeader (
     override val id: String,
     val title: String,
     val description: String,
-    val color: Color = Color.Blue,
+    val pageTitle: String? = null,
+    val color: Color = formVioletDark,
 ): FormDecorator {
 
     @Composable
@@ -37,49 +43,74 @@ data class FormGroupHeader (
         onValueChange: (String, String) -> Unit,
         errors: Map<String, String?>
     ) {
+        val corner = 8.dp
 
         Column {
-            Column(
-                modifier = Modifier
-                    .background(Color.White, MaterialTheme.shapes.large)
-                    .clip(MaterialTheme.shapes.large)
-                    .border(1.dp, FormBorderGray, MaterialTheme.shapes.large)
-                    .fillMaxWidth()
-            ) {
+            if(!pageTitle.isNullOrBlank()) {
                 Box(
                     modifier = Modifier
-                        .background(color.copy(0.2f))
+                        .background(color, RoundedCornerShape(topStart = corner, topEnd = corner), )
+                        .width(100.dp)
+                        .height(30.dp),
+                    contentAlignment = Alignment.Center
+
+                ){
+                    Text(
+                        text = "Page 1 of 1",
+                        color = Color.LightGray
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .background(
+                        color,
+                        RoundedCornerShape(
+                            topEnd = corner,
+                            topStart = if(pageTitle.isNullOrBlank()) corner else 0.dp,
+                            bottomEnd = corner,
+                            bottomStart = corner
+                        )
+                    )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .background(Color.White, MaterialTheme.shapes.small)
+                        .clip(MaterialTheme.shapes.small)
+                        .border(1.dp, FormBorderGray, MaterialTheme.shapes.small)
                         .fillMaxWidth()
-                        .size(15.dp)
-                )
-                Spacer(modifier = Modifier.size(10.dp))
-                Text(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp),
-                    text = buildAnnotatedString {
-                        withStyle(
-                            style = SpanStyle(
-                                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(title)
-                        }
+                ) {
+                    Text(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
+                        text = buildAnnotatedString {
+                            withStyle(
+                                style = SpanStyle(
+                                    fontSize = MaterialTheme.typography.titleLarge.fontSize,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            ) {
+                                append(title)
+                            }
 
 
-                        withStyle(
-                            style = SpanStyle(
-                                fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-                            )
-                        ) {
-                            append("\n\n")
-                            append(description)
+                            withStyle(
+                                style = SpanStyle(
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                    fontWeight = FontWeight.Normal,
+                                    color = Color.DarkGray
+                                )
+                            ) {
+                                append("\n\n")
+                                append(description)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
 
             Text(
-                modifier = Modifier.padding(vertical = 12.dp, horizontal = 8.dp),
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp),
                 text = " * Indicates required question",
                 color = FormErrorRed
             )

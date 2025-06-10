@@ -28,6 +28,9 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.core.Icons.MyIconPack
+import com.wezacare.forms.core.Icons.myiconpack.Checkbox
+import com.wezacare.forms.core.Icons.myiconpack.CheckboxBlank
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
 import com.wezacare.forms.core.presentation.SubtitleGray
@@ -59,11 +62,11 @@ data class FormCheckBoxInput (
         val error = errors[id]
         Column (
             modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.large)
-                .clip(MaterialTheme.shapes.large)
+                .background(Color.White, MaterialTheme.shapes.small)
+                .clip(MaterialTheme.shapes.small)
                 .border(1.dp,
                     if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.large
+                    MaterialTheme.shapes.small
                 )
                 .padding(vertical = 12.dp, horizontal = 16.dp)
                 .fillMaxWidth()
@@ -85,14 +88,14 @@ data class FormCheckBoxInput (
                         }
                     }
                 },
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.Normal
             )
             if(!subLabel.isNullOrBlank()) {
                 Text(
-                    modifier = Modifier.padding(vertical = 2.dp),
+                    modifier = Modifier.padding(vertical = 6.dp),
                     text = subLabel,
                     color = SubtitleGray,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.Normal
                 )
             }
             Spacer(modifier = Modifier.size(3.dp))
@@ -101,12 +104,13 @@ data class FormCheckBoxInput (
                     optionTitle = item,
                     isSelected = index in value,
                     onClick = {
+                        val _checkItems = value
                         if(index in value) {
-                            value.remove(index)
+                            _checkItems.remove(index)
                         } else {
-                            value.add(index)
+                            _checkItems.add(index)
                         }
-                        onValueChange(id, value)
+                        onValueChange(id, _checkItems)
                     },
                 )
             }
@@ -134,8 +138,8 @@ data class FormCheckBoxInput (
                     .size(26.dp)
                     .padding(vertical = 2.dp)
                     .padding(end = 8.dp),
-                imageVector = if(isSelected) Icons.Default.CheckBox else
-                    Icons.Default.CheckBoxOutlineBlank,
+                imageVector = if(isSelected) MyIconPack.Checkbox else
+                    MyIconPack.CheckboxBlank,
                 contentDescription = "Radio button",
                 tint = if (isSelected) selectedTint else defaultTint
             )

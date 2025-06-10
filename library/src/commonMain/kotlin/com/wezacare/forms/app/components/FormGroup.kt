@@ -39,14 +39,14 @@ data class FormGroup(
     ) {
         Column(
             modifier = Modifier
-                .background(Color.Gray.copy(0.1f), MaterialTheme.shapes.large)
-                .clip(MaterialTheme.shapes.large)
-                .border(0.7.dp, FormBorderGray, MaterialTheme.shapes.large)
-                .padding(start = 8.dp, top = 12.dp, bottom = 8.dp, end = 8.dp)
+                .background(Color.Gray.copy(0.1f), MaterialTheme.shapes.small)
+                .clip(MaterialTheme.shapes.small)
+                .border(0.7.dp, FormBorderGray, MaterialTheme.shapes.small)
+                .padding(start = 8.dp, top = 12.dp, bottom = 4.dp, end = 8.dp)
                 .fillMaxWidth()
         ) {
             Text(
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 8.dp),
                 text = label,
                 fontWeight = FontWeight.Bold
             )
