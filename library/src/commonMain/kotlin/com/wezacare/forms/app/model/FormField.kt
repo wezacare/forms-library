@@ -7,5 +7,4 @@ interface FormField<T>: FormElement<T> {
     val validators: List<ValidationRule>
 
     fun validate(value: T): String?
-
 }

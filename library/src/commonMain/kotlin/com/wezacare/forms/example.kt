@@ -8,6 +8,7 @@ import com.wezacare.forms.app.components.FormGroup
 import com.wezacare.forms.app.components.FormGroupHeader
 import com.wezacare.forms.app.components.FormOptionInput
 import com.wezacare.forms.app.components.FormCheckBoxInput
+import com.wezacare.forms.app.components.FormImageInput
 import com.wezacare.forms.app.components.FormTextInput
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormPage
@@ -47,15 +48,28 @@ fun FormScreen() {
 
 @Composable
 fun MultiPageFormScreen() {
+
+    val formComponents: List<FormElement<Any>>  = listOf(
+        FormTextInput(id="email", label = "What is your Email Address?", placeholder = "Your Email Address", required = true) as FormElement<Any>,
+        FormCheckBoxInput(id = "checkbox", required = true, label = "Which of the following individuals reside in your household",
+            subLabel = "(Select all that apply)", optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian")
+        ) as FormElement<Any>,
+        FormImageInput(id = "image", label = "Profile Picture", placeholder = "Select one image from the drive", required = true) as FormElement<Any>
+    )
+
     val formSchema = MultiPageForm(
         pages = listOf(
             FormPage(
-                id = "",
+                id = "1",
                 title = "Nutrition and Diet Plan Form",
                 description = "The Application for Registration of a CCI is designed for online and in-person classrooms and educational programs. We need a few more details to verify that you’re a student or educator in an eligible school or course.",
-                components = listOf(
-
-                )
+                components = formComponents
+            ),
+            FormPage(
+                id = "2",
+                title = "Child support form",
+                description = "The Application for Registration of a CCI is designed for online and in-person classrooms and educational programs. We need a few more details to verify that you’re a student or educator in an eligible school or course.",
+                components = formComponents
             )
         )
     )

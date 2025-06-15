@@ -56,7 +56,7 @@ data class FormGroupHeader (
 
                 ){
                     Text(
-                        text = "Page 1 of 1",
+                        text = pageTitle,
                         color = Color.LightGray
                     )
                 }

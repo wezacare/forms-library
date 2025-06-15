@@ -58,7 +58,7 @@ data class FormCheckBoxInput (
         onValueChange: (String, List<Int>) -> Unit,
         errors: Map<String, String?>
     ) {
-        val value = values[id] as? MutableList<Int> ?: mutableListOf()
+        val value = values[id] as? List<Int> ?: listOf()
         val error = errors[id]
         Column (
             modifier = Modifier
@@ -104,7 +104,9 @@ data class FormCheckBoxInput (
                     optionTitle = item,
                     isSelected = index in value,
                     onClick = {
-                        val _checkItems = value
+                        val _checkItems = mutableListOf<Int>()
+                        value.forEach { _checkItems.add(it) }
+
                         if(index in value) {
                             _checkItems.remove(index)
                         } else {

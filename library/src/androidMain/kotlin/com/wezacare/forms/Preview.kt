@@ -1,5 +1,6 @@
 package com.wezacare.forms
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -75,11 +76,11 @@ private fun PreviewFormImageInput() {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
-        val formData = remember { mutableStateMapOf<String, String>() }
+        val formData = remember { mutableStateMapOf<String, Any>() }
         val errors = remember { mutableStateMapOf<String, String>() }
 
         FormImageInput(id = "image", label = "Profile Picture", placeholder = "Select one image from the drive", required = true)
-            .Render(formData, { id, value -> formData[id] = value }, errors)
+            .Render(formData, { id, value -> formData[id] = value as Any }, errors)
 
     }
 }
@@ -103,4 +104,10 @@ private fun PreviewFormVideoInput() {
 @Composable
 private fun PreviewForm() {
     FormScreen()
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewMultiPageFormScreen() {
+    MultiPageFormScreen()
 }
