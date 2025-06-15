@@ -62,7 +62,7 @@ data class FormImageInput(
     override val validators: List<ValidationRule> = emptyList()
 ): FormField<ImageBitmap?> {
     override fun validate(value: ImageBitmap?): String? {
-        if (required && value != null) {
+        if (required && value == null) {
             return "Field is required"
         }
 //        return validators.firstNotNullOfOrNull { it(value) }
@@ -75,10 +75,10 @@ data class FormImageInput(
         onValueChange: (String, ImageBitmap?) -> Unit,
         errors: Map<String, String?>
     ) {
-        val value = values[id] as? String
+        var value = values[id] as? ImageBitmap?
         val error = errors[id]
 
-        var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
+//        var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
         val coroutineScope = rememberCoroutineScope()
         var launchGallery by remember { mutableStateOf(value = false) }
         var launchSetting by remember { mutableStateOf(value = false) }
@@ -111,7 +111,8 @@ data class FormImageInput(
                 val bitmap = withContext(Dispatchers.Default) {
                     sharedImage?.toImageBitmap()
                 }
-                imageBitmap = bitmap
+//                imageBitmap = bitmap
+                value = bitmap
                 onValueChange(id, bitmap)
             }
         }
@@ -180,15 +181,14 @@ data class FormImageInput(
                 fontWeight = FontWeight.Normal
             )
 
-            if(value.isNullOrBlank()) {
-                Text(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    text = placeholder ?: "",
-                    color = FormBorderGray,
-                    fontSize = 13.sp
-                )
-            }
-            if(imageBitmap == null) {
+            Text(
+                modifier = Modifier.padding(vertical = 8.dp),
+                text = placeholder ?: "",
+                color = FormBorderGray,
+                fontSize = 13.sp
+            )
+
+            if(value == null) {
                 Row(
                     modifier = Modifier
                         .background(Color.White, MaterialTheme.shapes.small)
@@ -224,7 +224,7 @@ data class FormImageInput(
             } else {
                 Row(
                     modifier = Modifier
-                        .background(Color.Red, MaterialTheme.shapes.small)
+                        .background(Color.White, MaterialTheme.shapes.small)
                         .clickable {
                             galleryManager.launch()
                         }
@@ -235,7 +235,7 @@ data class FormImageInput(
                         modifier = Modifier
                             .fillMaxSize()
                             .clip(MaterialTheme.shapes.small),
-                        bitmap = imageBitmap!!,
+                        bitmap = value!!,
                         contentScale = ContentScale.Crop,
                         contentDescription = ""
                     )

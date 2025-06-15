@@ -29,7 +29,7 @@ data class FormGroup(
     override val required: Boolean = false
     override val validators: List<ValidationRule> = emptyList()
 
-    override fun validate(value: Any): String? = null
+    override fun validate(value: Any?): String? = null
 
     @Composable
     override fun Render(

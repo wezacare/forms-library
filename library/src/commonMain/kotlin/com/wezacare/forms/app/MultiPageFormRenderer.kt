@@ -51,7 +51,7 @@ fun MultiPageFormRenderer(form: MultiPageForm) {
 
         for (component in currentPage.components) {
             if(component is FormField) {
-                val value = values[component.id] ?: ""
+                val value = values[component.id]
                 val error = component.validate(value)
                 errors[component.id] = error
                 if(error != null) valid = false

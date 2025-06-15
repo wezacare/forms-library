@@ -6,5 +6,5 @@ interface FormField<T>: FormElement<T> {
     val required: Boolean
     val validators: List<ValidationRule>
 
-    fun validate(value: T): String?
+    fun validate(value: T?): String?
 }

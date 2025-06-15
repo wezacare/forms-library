@@ -50,9 +50,13 @@ fun FormScreen() {
 fun MultiPageFormScreen() {
 
     val formComponents: List<FormElement<Any>>  = listOf(
+        FormTextInput(id="name", label = "What is your full name", placeholder = "Your Full Name", required = true ) as FormElement<Any>,
         FormTextInput(id="email", label = "What is your Email Address?", placeholder = "Your Email Address", required = true) as FormElement<Any>,
         FormCheckBoxInput(id = "checkbox", required = true, label = "Which of the following individuals reside in your household",
             subLabel = "(Select all that apply)", optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian")
+        ) as FormElement<Any>,
+        FormOptionInput(id = "option", required = true, label = "On a scale from 1 to 5, how would you rate your current level of education",
+            subLabel = "(1 being the lowest, 5 being the highest)", optionList = listOf("1", "2", "3", "4", "5")
         ) as FormElement<Any>,
         FormImageInput(id = "image", label = "Profile Picture", placeholder = "Select one image from the drive", required = true) as FormElement<Any>
     )

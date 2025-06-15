@@ -39,11 +39,15 @@ data class FormTextInput(
     override val required: Boolean = false,
     override val validators: List<ValidationRule> = emptyList()
 ): FormField<String> {
-    override fun validate(value: String): String? {
-        if (required && value.isBlank()) {
+    override fun validate(value: String?): String? {
+        if (required && value.isNullOrBlank()) {
             return "Field is required"
         }
-        return validators.firstNotNullOfOrNull { it(value) }
+        return validators.firstNotNullOfOrNull {
+            if (value != null) {
+                it(value)
+            } else null
+        }
     }
 
     @Composable
@@ -100,7 +104,7 @@ data class FormTextInput(
                     onValueChange(id, it)
                 },
                 textStyle = TextStyle(
-                    fontSize = 12.sp
+                    fontSize = 13.sp
                 ),
                 cursorBrush = SolidColor(Color.DarkGray),
                 decorationBox = { innerTextField ->
@@ -112,7 +116,7 @@ data class FormTextInput(
                             Text(
                                 text = placeholder ?: "",
                                 color = FormBorderGray,
-                                fontSize = 12.sp
+                                fontSize = 13.sp
                             )
                         } else {
                             innerTextField()

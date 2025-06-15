@@ -45,8 +45,8 @@ data class FormCheckBoxInput (
     override val validators: List<ValidationRule> = emptyList()
 ): FormField<List<Int>> {
 
-    override fun validate(value: List<Int>): String? {
-        if(required && value.isEmpty()) {
+    override fun validate(value: List<Int>?): String? {
+        if(required && value.isNullOrEmpty()) {
             return "Field cannot be empty"
         }
         return null

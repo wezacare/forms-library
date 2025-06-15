@@ -44,8 +44,8 @@ data class FormOptionInput(
     override val required: Boolean = false,
     override val validators: List<ValidationRule> = emptyList(),
 ): FormField<Int> {
-    override fun validate(value: Int): String? {
-        if (required && value == -1) {
+    override fun validate(value: Int?): String? {
+        if (required && (value == null || value == -1)) {
             return "Field cannot be empty"
         }
         return null
