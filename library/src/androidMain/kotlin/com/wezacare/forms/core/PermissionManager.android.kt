@@ -20,12 +20,11 @@ import com.wezacare.forms.core.models.PermissionStatus
 import com.wezacare.forms.core.models.PermissionType
 import kotlinx.coroutines.launch
 
-actual class PermissionManager actual constructor(private val callback: PermissionCallback) :
-    PermissionHandler {
+actual class PermissionManager actual constructor(private val callback: PermissionCallback) {
 
     @OptIn(ExperimentalPermissionsApi::class)
     @Composable
-    override fun askPermission(permission: PermissionType) {
+    actual fun askPermission(permission: PermissionType) {
         val lifecycleOwner = LocalLifecycleOwner.current
 
         when(permission) {
@@ -56,7 +55,7 @@ actual class PermissionManager actual constructor(private val callback: Permissi
 
     @OptIn(ExperimentalPermissionsApi::class)
     @Composable
-    override fun isPermissionGranted(permission: PermissionType): Boolean {
+    actual fun isPermissionGranted(permission: PermissionType): Boolean {
         return when (permission) {
             PermissionType.CAMERA -> {
                 val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
@@ -69,7 +68,7 @@ actual class PermissionManager actual constructor(private val callback: Permissi
     }
 
     @Composable
-    override fun launchSettings() {
+    actual fun launchSettings() {
         val context = LocalContext.current
         Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

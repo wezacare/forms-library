@@ -21,9 +21,9 @@ import platform.Photos.PHPhotoLibrary
 import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
 
-actual class PermissionManager actual constructor(private val callback: PermissionCallback) : PermissionHandler {
+actual class PermissionManager actual constructor(private val callback: PermissionCallback) {
     @Composable
-    override fun askPermission(permission: PermissionType) {
+    actual fun askPermission(permission: PermissionType) {
         when (permission) {
             PermissionType.CAMERA -> {
                 val status: AVAuthorizationStatus =
@@ -39,7 +39,7 @@ actual class PermissionManager actual constructor(private val callback: Permissi
     }
 
     @Composable
-    override fun isPermissionGranted(permission: PermissionType): Boolean {
+    actual fun isPermissionGranted(permission: PermissionType): Boolean {
         return when (permission) {
             PermissionType.CAMERA -> {
                 val status: AVAuthorizationStatus =
@@ -56,7 +56,7 @@ actual class PermissionManager actual constructor(private val callback: Permissi
     }
 
     @Composable
-    override fun launchSettings() {
+    actual fun launchSettings() {
         NSURL.URLWithString(UIApplicationOpenSettingsURLString)?.let {
             UIApplication.sharedApplication.openURL(it)
         }

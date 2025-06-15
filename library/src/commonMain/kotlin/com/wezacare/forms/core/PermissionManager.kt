@@ -4,7 +4,16 @@ import androidx.compose.runtime.Composable
 import com.wezacare.forms.core.models.PermissionStatus
 import com.wezacare.forms.core.models.PermissionType
 
-expect class PermissionManager(callback: PermissionCallback ): PermissionHandler
+expect class PermissionManager(callback: PermissionCallback ) {
+    @Composable
+    fun askPermission(permission: PermissionType)
+    
+    @Composable
+    fun isPermissionGranted(permission: PermissionType): Boolean
+    
+    @Composable
+    fun launchSettings()
+}
 
 interface PermissionCallback {
     fun onPermissionStatus(permissionType: PermissionType, status: PermissionStatus)
@@ -12,15 +21,4 @@ interface PermissionCallback {
 
 @Composable
 expect fun createPermissionManager(callback: PermissionCallback): PermissionManager
-
-interface PermissionHandler {
-    @Composable
-    fun askPermission(permission: PermissionType)
-
-    @Composable
-    fun isPermissionGranted(permission: PermissionType): Boolean
-
-    @Composable
-    fun launchSettings()
-}
 
