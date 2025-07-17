@@ -36,9 +36,11 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
+import com.wezacare.forms.app.model.FormMargin
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.Icons.myiconpack.AddPhotoAlternate
 import com.wezacare.forms.core.PermissionCallback
@@ -46,8 +48,10 @@ import com.wezacare.forms.core.PermissionManager
 import com.wezacare.forms.core.createPermissionManager
 import com.wezacare.forms.core.models.PermissionStatus
 import com.wezacare.forms.core.models.PermissionType
+import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
+import com.wezacare.forms.core.presentation.formVioletDark
 import com.wezacare.forms.core.rememberCameraManager
 import com.wezacare.forms.core.rememberGalleryManager
 import kotlinx.coroutines.Dispatchers
@@ -58,8 +62,12 @@ data class FormImageInput(
     override val id: String,
     override val label: String,
     override val placeholder: String? = "",
+    val showPageTitle: Boolean = false,
+    val color: Color = DEFAULT_FORM_COLOR,
+    val pageTitle: String? = null,
+    override val margin: FormMargin = FormMargin(4.dp, 4.dp),
     override val required: Boolean = false,
-    override val validators: List<ValidationRule> = emptyList()
+    override val validators: List<ValidationRule> = emptyList(),
 ): FormField<ImageBitmap?> {
     override fun validate(value: ImageBitmap?): String? {
         if (required && value == null) {
@@ -148,19 +156,13 @@ data class FormImageInput(
             )
         }
 
-        Column(
-            modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.small)
-                .clip(MaterialTheme.shapes.small)
-                .border(1.dp,
-                    if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.small
-                )
-                .padding(vertical = 10.dp, horizontal = 12.dp)
-                .fillMaxWidth()
+        Spacer(modifier = Modifier.size(margin.top))
+        FormItemContainer(
+            isValid = error.isNullOrBlank(),
+            color = color,
+            showPageTitle = showPageTitle,
+            page = pageTitle
         ) {
-
-
             if(!error.isNullOrBlank()) {
                 Text(
                     text = error,
@@ -244,6 +246,8 @@ data class FormImageInput(
             }
 
         }
+        Spacer(modifier = Modifier.size(margin.bottom))
+
     }
     
 }

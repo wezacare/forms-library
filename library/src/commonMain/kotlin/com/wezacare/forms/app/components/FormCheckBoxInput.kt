@@ -25,24 +25,34 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
+import com.wezacare.forms.app.model.FormMargin
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.Icons.MyIconPack
 import com.wezacare.forms.core.Icons.myiconpack.Checkbox
 import com.wezacare.forms.core.Icons.myiconpack.CheckboxBlank
+import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
 import com.wezacare.forms.core.presentation.SubtitleGray
+import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormCheckBoxInput (
     override val id: String,
     override val label: String,
     val optionList: List<String>,
     val subLabel: String? = null,
+    val showPageTitle: Boolean = false,
+    val color: Color = DEFAULT_FORM_COLOR,
+    val pageTitle: String? = null,
     override val placeholder: String = "",
     override val required: Boolean = false,
-    override val validators: List<ValidationRule> = emptyList()
+    override val validators: List<ValidationRule> = emptyList(),
+    val tint : Color? = null,
+    override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<List<Int>> {
 
     override fun validate(value: List<Int>?): String? {
@@ -60,16 +70,13 @@ data class FormCheckBoxInput (
     ) {
         val value = values[id] as? List<Int> ?: listOf()
         val error = errors[id]
-        Column (
-            modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.small)
-                .clip(MaterialTheme.shapes.small)
-                .border(1.dp,
-                    if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.small
-                )
-                .padding(vertical = 12.dp, horizontal = 16.dp)
-                .fillMaxWidth()
+
+        Spacer(modifier = Modifier.size(margin.top))
+        FormItemContainer (
+            isValid = error.isNullOrBlank(),
+            color = color,
+            showPageTitle = showPageTitle,
+            page = pageTitle
         ) {
             if(!error.isNullOrBlank()) {
                 Text(
@@ -88,14 +95,15 @@ data class FormCheckBoxInput (
                         }
                     }
                 },
-                fontWeight = FontWeight.Normal
+                lineHeight = 16.sp
             )
             if(!subLabel.isNullOrBlank()) {
                 Text(
-                    modifier = Modifier.padding(vertical = 6.dp),
+                    modifier = Modifier
+                        .padding(vertical = 6.dp),
                     text = subLabel,
                     color = SubtitleGray,
-                    fontWeight = FontWeight.Normal
+                    lineHeight = 16.sp
                 )
             }
             Spacer(modifier = Modifier.size(3.dp))
@@ -103,6 +111,7 @@ data class FormCheckBoxInput (
                 CheckBoxItem(
                     optionTitle = item,
                     isSelected = index in value,
+                    selectedTint = tint ?: Color.Blue.copy(0.6f),
                     onClick = {
                         val _checkItems = mutableListOf<Int>()
                         value.forEach { _checkItems.add(it) }
@@ -114,9 +123,11 @@ data class FormCheckBoxInput (
                         }
                         onValueChange(id, _checkItems)
                     },
+
                 )
             }
         }
+        Spacer(modifier = Modifier.size(margin.bottom))
     }
 
     @Composable

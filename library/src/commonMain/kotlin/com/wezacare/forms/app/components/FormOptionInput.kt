@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.RadioButtonChecked
-import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,17 +20,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
+import com.wezacare.forms.app.model.FormMargin
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.core.Icons.MyIconPack
 import com.wezacare.forms.core.Icons.myiconpack.RadioButtonChecked
 import com.wezacare.forms.core.Icons.myiconpack.RadioButtonUnchecked
+import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
 import com.wezacare.forms.core.presentation.SubtitleGray
+import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormOptionInput(
     override val id: String,
@@ -41,8 +42,12 @@ data class FormOptionInput(
     val optionList: List<String>,
     override val placeholder: String = "",
     val subLabel: String? = null,
+    val showPageTitle: Boolean = false,
+    val pageTitle: String? = null,
     override val required: Boolean = false,
     override val validators: List<ValidationRule> = emptyList(),
+    val tint: Color = DEFAULT_FORM_COLOR,
+    override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<Int> {
     override fun validate(value: Int?): String? {
         if (required && (value == null || value == -1)) {
@@ -92,16 +97,12 @@ data class FormOptionInput(
         val value = values[id] as? Int ?: -1
         val error = errors[id]
 
-        Column (
-            modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.small)
-                .clip(MaterialTheme.shapes.small)
-                .border(1.dp,
-                    if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.small
-                )
-                .padding(vertical = 12.dp, horizontal = 16.dp)
-                .fillMaxWidth()
+        Spacer(modifier = Modifier.size(margin.top))
+        FormItemContainer (
+            isValid = error.isNullOrBlank(),
+            color = tint ,
+            showPageTitle = showPageTitle,
+            page = pageTitle
         ) {
             if(!error.isNullOrBlank()) {
                 Text(
@@ -120,14 +121,15 @@ data class FormOptionInput(
                         }
                     }
                 },
-                fontWeight = FontWeight.SemiBold
+                lineHeight = 16.sp
             )
             if(!subLabel.isNullOrBlank()) {
                 Text(
-                    modifier = Modifier.padding(vertical = 2.dp),
+                    modifier = Modifier
+                        .padding(vertical = 6.dp),
                     text = subLabel,
                     color = SubtitleGray,
-                    fontWeight = FontWeight.SemiBold
+                    lineHeight = 16.sp
                 )
             }
             Spacer(modifier = Modifier.size(3.dp))
@@ -138,10 +140,15 @@ data class FormOptionInput(
                     onClick = {
                         onValueChange(id, index)
                     },
+                    selectedTint = when(tint) {
+                        null -> Color.Blue.copy(0.6f)
+                        else -> tint
+                    }
                 )
             }
 
         }
+        Spacer(modifier = Modifier.size(margin.bottom))
     }
 
 }

@@ -7,3 +7,6 @@ val FormBorderGray = Color.Gray.copy(alpha = 0.6f)
 val SubtitleGray = Color.Gray.copy(alpha = 0.8f)
 val formVioletDark = Color(103, 58, 183)
 val formVioletPrimary = Color(137, 48, 253)
+
+
+var DEFAULT_FORM_COLOR = formVioletPrimary

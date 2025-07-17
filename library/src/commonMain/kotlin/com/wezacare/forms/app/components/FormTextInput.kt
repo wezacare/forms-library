@@ -23,22 +23,33 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
+import com.wezacare.forms.app.model.FormMargin
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
+import com.wezacare.forms.core.presentation.SubtitleGray
 import com.wezacare.forms.core.presentation.bottomBorder
+import com.wezacare.forms.core.presentation.formVioletDark
 
 
 data class FormTextInput(
     override val id: String,
     override val label: String,
+    val description: String? = null,
+    val showPageTitle: Boolean = false,
+    val color: Color = DEFAULT_FORM_COLOR,
+    val pageTitle: String? = null,
     override val placeholder: String? = "",
     override val required: Boolean = false,
-    override val validators: List<ValidationRule> = emptyList()
-): FormField<String> {
+    override val validators: List<ValidationRule> = emptyList(),
+    override val margin: FormMargin = FormMargin(4.dp, 4.dp)
+
+    ): FormField<String> {
     override fun validate(value: String?): String? {
         if (required && value.isNullOrBlank()) {
             return "Field is required"
@@ -60,16 +71,12 @@ data class FormTextInput(
         val value = values[id] as? String
         val error = errors[id]
 
-        Column (
-            modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.small)
-                .clip(MaterialTheme.shapes.small)
-                .border(1.dp,
-                    if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.small
-                )
-                .padding(vertical = 10.dp, horizontal = 12.dp)
-                .fillMaxWidth()
+        Spacer(modifier = Modifier.size(margin.top))
+        FormItemContainer (
+            isValid = error.isNullOrBlank(),
+            color = color,
+            showPageTitle = showPageTitle,
+            page = pageTitle
         ) {
             if(!error.isNullOrBlank()) {
                 Text(
@@ -90,15 +97,28 @@ data class FormTextInput(
                 },
                 fontWeight = FontWeight.Normal
             )
-            Spacer(modifier = Modifier.size(3.dp))
+            Spacer(modifier = Modifier.size(4.dp))
+
+            if(!description.isNullOrBlank()) {
+                Text(
+                    modifier = Modifier.padding(vertical = 4.dp),
+                    text = description,
+                    fontSize = 13.sp,
+                    color = SubtitleGray,
+                    lineHeight = 16.sp
+                )
+                Spacer(modifier = Modifier.size(4.dp))
+            }
 
             BasicTextField(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(bottom = 4.dp)
-                    .bottomBorder(
-                        0.8.dp,
-                        if(error.isNullOrBlank()) FormBorderGray else FormErrorRed
-                    ),
+                    .padding(vertical = 8.dp)
+                    .border(
+                        0.6.dp,
+                        if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
+                        MaterialTheme.shapes.extraSmall
+                    )
+                    .background(Color.LightGray.copy(alpha = 0.1f), MaterialTheme.shapes.extraSmall),
                 value = value ?: "",
                 onValueChange = {
                     onValueChange(id, it)
@@ -109,7 +129,8 @@ data class FormTextInput(
                 cursorBrush = SolidColor(Color.DarkGray),
                 decorationBox = { innerTextField ->
                     Row(
-                        modifier = Modifier.padding(top = 8.dp, bottom = 5.dp),
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp, vertical = 12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         if(value.isNullOrBlank()) {
@@ -125,5 +146,6 @@ data class FormTextInput(
                 }
             )
         }
+        Spacer(modifier = Modifier.size(margin.bottom))
     }
 }

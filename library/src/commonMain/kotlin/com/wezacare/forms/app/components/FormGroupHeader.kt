@@ -22,9 +22,12 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.model.FormDecorator
 import com.wezacare.forms.app.model.FormElement
+import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
 import com.wezacare.forms.core.presentation.formVioletDark
@@ -34,7 +37,7 @@ data class FormGroupHeader (
     val title: String,
     val description: String,
     val pageTitle: String? = null,
-    val color: Color = formVioletDark,
+    override val margin: FormMargin = FormMargin(4.dp, 4.dp),
 ): FormDecorator {
 
     @Composable
@@ -45,11 +48,16 @@ data class FormGroupHeader (
     ) {
         val corner = 8.dp
 
+        Spacer(modifier = Modifier.size(margin.top))
         Column {
             if(!pageTitle.isNullOrBlank()) {
                 Box(
                     modifier = Modifier
-                        .background(color, RoundedCornerShape(topStart = corner, topEnd = corner), )
+                        .background(
+                            DEFAULT_FORM_COLOR,
+                            RoundedCornerShape(topStart = corner,
+                                topEnd = corner),
+                            )
                         .width(100.dp)
                         .height(30.dp),
                     contentAlignment = Alignment.Center
@@ -65,7 +73,7 @@ data class FormGroupHeader (
             Column(
                 modifier = Modifier
                     .background(
-                        color,
+                        DEFAULT_FORM_COLOR,
                         RoundedCornerShape(
                             topEnd = corner,
                             topStart = if(pageTitle.isNullOrBlank()) corner else 0.dp,
@@ -81,6 +89,13 @@ data class FormGroupHeader (
                         .border(1.dp, FormBorderGray, MaterialTheme.shapes.small)
                         .fillMaxWidth()
                 ) {
+                    Box(
+                        modifier = Modifier
+                            .height(12.dp)
+                            .fillMaxWidth()
+                            .background(DEFAULT_FORM_COLOR.copy(alpha = 0.4f))
+                    )
+
                     Text(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 12.dp),
                         text = buildAnnotatedString {
@@ -109,12 +124,13 @@ data class FormGroupHeader (
                 }
             }
 
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp),
-                text = " * Indicates required question",
-                color = FormErrorRed
-            )
+//            Text(
+//                modifier = Modifier.padding(vertical = 8.dp, horizontal = 8.dp),
+//                text = " * Indicates required question",
+//                color = FormErrorRed
+//            )
 
         }
+        Spacer(modifier = Modifier.size(margin.bottom))
     }
 }

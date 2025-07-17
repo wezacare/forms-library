@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,19 +26,27 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
+import com.wezacare.forms.app.model.FormMargin
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
+import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormVideoInput(
     override val id: String,
     override val label: String,
     override val placeholder: String? = "",
+    val showPageTitle: Boolean = false,
+    val color: Color = DEFAULT_FORM_COLOR,
+    val pageTitle: String? = null,
     override val required: Boolean = false,
-    override val validators: List<ValidationRule> = emptyList()
+    override val validators: List<ValidationRule> = emptyList(),
+    override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<String> {
     override fun validate(value: String?): String? {
         if (required && value.isNullOrBlank()) {
@@ -59,16 +68,12 @@ data class FormVideoInput(
         val value = values[id] as? String
         val error = errors[id]
 
-        Column(
-            modifier = Modifier
-                .background(Color.White, MaterialTheme.shapes.small)
-                .clip(MaterialTheme.shapes.small)
-                .border(1.dp,
-                    if(error.isNullOrBlank()) FormBorderGray else FormErrorRed,
-                    MaterialTheme.shapes.small
-                )
-                .padding(vertical = 10.dp, horizontal = 12.dp)
-                .fillMaxWidth()
+        Spacer(modifier = Modifier.size(margin.top))
+        FormItemContainer(
+            isValid = error.isNullOrBlank(),
+            color = color,
+            showPageTitle = showPageTitle,
+            page = pageTitle
         ) {
             if(!error.isNullOrBlank()) {
                 Text(
@@ -129,6 +134,7 @@ data class FormVideoInput(
             }
 
         }
+        Spacer(modifier = Modifier.size(margin.bottom))
 
     }
 
