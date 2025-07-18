@@ -25,7 +25,7 @@ data class FormLinkedDoc (
     override val id: String,
     val title: String,
     val link: String,
-    val tint: Color? = DEFAULT_FORM_COLOR,
+    val tint: Color = DEFAULT_FORM_COLOR,
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormDecorator {
 
@@ -40,7 +40,7 @@ data class FormLinkedDoc (
         Row(
             modifier = Modifier
                 .background(
-                    color = tint ?: Color.Blue.copy(alpha = 0.7f),
+                    color = tint,
                     shape = MaterialTheme.shapes.extraLarge
                 )
                 .padding(horizontal = 16.dp, vertical = 6.dp),

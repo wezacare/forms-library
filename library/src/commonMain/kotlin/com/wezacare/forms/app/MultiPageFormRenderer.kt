@@ -11,14 +11,15 @@ import com.wezacare.forms.app.model.NavigationMode
 @Composable
 fun MultiPageFormRenderer(
     form: MultiPageForm,
-    onSubmit: (Map<String, Any>) -> Unit
+    onSubmit: (Map<String, Any>) -> Unit,
+    onBackClick: () -> Unit,
 ) {
 
     val values: MutableMap<String, Any> = remember { mutableStateMapOf() }
     val errors: MutableMap<String, String?> = remember { mutableStateMapOf() }
 
     when (form.navigationMode) {
-        NavigationMode.HORIZONTAL -> HorizontalFormPager(form, { onSubmit(values) },  values, errors)
+        NavigationMode.HORIZONTAL -> HorizontalFormPager(form, { onSubmit(values) }, onBackClick, values, errors)
         NavigationMode.VERTICAL -> VerticalFormPager(form, { onSubmit(values) }, values, errors)
     }
 

@@ -111,5 +111,5 @@ fun MultiPageFormScreen() {
         navigationMode = NavigationMode.HORIZONTAL
     )
 
-    MultiPageFormRenderer(formSchema, {})
+    MultiPageFormRenderer(formSchema, {}, {})
 }

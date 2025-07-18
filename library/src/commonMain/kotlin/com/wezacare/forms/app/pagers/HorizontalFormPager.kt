@@ -1,5 +1,6 @@
 package com.wezacare.forms.app.pagers
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -9,9 +10,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Reply
+import androidx.compose.material.icons.automirrored.filled.Undo
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardReturn
+import androidx.compose.material.icons.filled.Replay
+import androidx.compose.material.icons.filled.Reply
+import androidx.compose.material.icons.filled.Undo
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -27,14 +39,15 @@ import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.MultiPageForm
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
+import com.wezacare.forms.core.presentation.FormBorderGray
 
 @Composable
 fun HorizontalFormPager(
     form: MultiPageForm,
     onSubmit: () -> Unit,
+    onBackClick: () -> Unit,
     values: MutableMap<String, Any> = remember { mutableStateMapOf() },
     errors: MutableMap<String, String?> = remember { mutableStateMapOf() },
-
 ) {
     var currentPageIndex by remember { mutableStateOf(0) }
     val currentPage = form.pages[currentPageIndex]
@@ -60,6 +73,33 @@ fun HorizontalFormPager(
             .background(DEFAULT_FORM_COLOR.copy(alpha = 0.07f))
             .padding(16.dp)
     ) {
+        item {
+            TextButton(
+                border = BorderStroke(
+                    0.5.dp,
+                    FormBorderGray,
+                ),
+                colors = ButtonDefaults.outlinedButtonColors().copy(
+                    containerColor = Color.White
+                ),
+                shape = MaterialTheme.shapes.extraLarge,
+                onClick = {
+                    onBackClick()
+                }
+            ) {
+                Icon(
+                    modifier = Modifier,
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "",
+                    tint = Color.Black
+                )
+                Text(
+                    text = "Back",
+                    color = Color.Black
+                )
+            }
+            Spacer(modifier = Modifier.size(4.dp))
+        }
 
         items(currentPage.components) { element ->
             element.Render(values, { id, value -> values[id] = value }, errors)
