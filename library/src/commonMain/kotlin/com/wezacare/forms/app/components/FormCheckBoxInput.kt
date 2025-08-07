@@ -30,7 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.app.tranformer.FormType
+import com.wezacare.forms.app.tranformer.IFormTransformer
 import com.wezacare.forms.core.Icons.MyIconPack
 import com.wezacare.forms.core.Icons.myiconpack.Checkbox
 import com.wezacare.forms.core.Icons.myiconpack.CheckboxBlank
@@ -42,6 +45,7 @@ import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormCheckBoxInput (
     override val id: String,
+    override val pageId: String,
     override val label: String,
     val optionList: List<String>,
     val subLabel: String? = null,
@@ -54,6 +58,22 @@ data class FormCheckBoxInput (
     val tint : Color? = null,
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<List<Int>> {
+
+    class Transformer(override val question: QuestionModel): IFormTransformer {
+        override val type: FormType
+            get() = FormType.CHECKBOX
+
+        override fun transform(): FormField<Any> {
+            return FormCheckBoxInput(
+                id = question.id,
+                pageId = question.pageId,
+                label = question.label,
+                placeholder = question.description,
+                required = question.required,
+                optionList = question.options?.map { it.value } ?: emptyList()
+            ) as FormField<Any>
+        }
+    }
 
     override fun validate(value: List<Int>?): String? {
         if(required && value.isNullOrEmpty()) {

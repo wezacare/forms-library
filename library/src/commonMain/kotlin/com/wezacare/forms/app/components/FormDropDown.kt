@@ -44,7 +44,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.app.tranformer.FormType
+import com.wezacare.forms.app.tranformer.IFormTransformer
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
@@ -53,6 +56,7 @@ import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormDropDown(
     override val id: String,
+    override val pageId: String,
     override val label: String,
     val optionList: List<String>,
     val subLabel: String? = null,
@@ -64,6 +68,22 @@ data class FormDropDown(
     override val validators: List<ValidationRule> = emptyList(),
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<String> {
+
+    class Transformer(override val question: QuestionModel) : IFormTransformer {
+        override val type: FormType
+            get() = FormType.DROPDOWN
+
+        override fun transform(): FormField<Any> {
+            return FormDropDown(
+                id = question.id,
+                pageId = question.pageId,
+                label = question.label,
+                placeholder = question.description,
+                required = question.required,
+                optionList = question.options?.map { it.value } ?: emptyList()
+            ) as FormField<Any>
+        }
+    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable

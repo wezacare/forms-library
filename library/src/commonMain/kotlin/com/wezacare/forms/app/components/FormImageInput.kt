@@ -60,6 +60,7 @@ import kotlinx.coroutines.withContext
 
 data class FormImageInput(
     override val id: String,
+    override val pageId: String,
     override val label: String,
     override val placeholder: String? = "",
     val showPageTitle: Boolean = false,

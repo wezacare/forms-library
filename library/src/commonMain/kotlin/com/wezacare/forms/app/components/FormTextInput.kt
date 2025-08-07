@@ -28,7 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.app.tranformer.FormType
+import com.wezacare.forms.app.tranformer.IFormTransformer
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
@@ -39,6 +42,7 @@ import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormTextInput(
     override val id: String,
+    override val pageId: String,
     override val label: String,
     val description: String? = null,
     val showPageTitle: Boolean = false,
@@ -48,8 +52,22 @@ data class FormTextInput(
     override val required: Boolean = false,
     override val validators: List<ValidationRule> = emptyList(),
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
+): FormField<String> {
+    class Transformer(override val question: QuestionModel) : IFormTransformer {
+        override val type: FormType
+            get() = FormType.TEXT_INPUT
 
-    ): FormField<String> {
+        override fun transform(): FormField<Any> {
+            return FormTextInput(
+                id = question.id,
+                pageId = question.pageId,
+                label = question.label,
+                placeholder = question.description,
+                required = question.required,
+            ) as FormField<Any>
+        }
+    }
+
     override fun validate(value: String?): String? {
         if (required && value.isNullOrBlank()) {
             return "Field is required"
@@ -148,4 +166,6 @@ data class FormTextInput(
         }
         Spacer(modifier = Modifier.size(margin.bottom))
     }
+
+
 }

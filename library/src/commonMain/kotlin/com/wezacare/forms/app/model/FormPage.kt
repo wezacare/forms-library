@@ -1,7 +1,12 @@
 package com.wezacare.forms.app.model
 
 data class FormPage(
+    val id: String,
+    val title: String,
+    val formId: String,
+    val order: Int,
     val page: Int,
-    val completed: Boolean = false,
-    val components: List<FormElement<Any>>
+    val formTheme: FormTheme,
+    val components: List<FormElement<Any>>,
+    val completed: Boolean = false
 )

@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.components.FormGroupHeader
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.MultiPageForm
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
@@ -50,7 +51,8 @@ fun HorizontalFormPager(
     errors: MutableMap<String, String?> = remember { mutableStateMapOf() },
 ) {
     var currentPageIndex by remember { mutableStateOf(0) }
-    val currentPage = form.pages[currentPageIndex]
+    val sortedPages = form.pages.sortedBy { it.order }
+    val currentPage = sortedPages[currentPageIndex]
 
     fun validatePage(): Boolean {
         errors.clear()
@@ -99,6 +101,16 @@ fun HorizontalFormPager(
                 )
             }
             Spacer(modifier = Modifier.size(4.dp))
+        }
+
+        if(currentPageIndex == 0) {
+            item {
+                FormGroupHeader(
+                    id = "header",
+                    title = form.formTitle,
+                    description = form.formDescription
+                ).Render(values, { id, value -> values[id] = value }, errors)
+            }
         }
 
         items(currentPage.components) { element ->

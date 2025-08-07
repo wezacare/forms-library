@@ -11,6 +11,7 @@ runtimeAndroid = "1.8.2"
 accompanist-permission = "0.37.3"
 foundationLayoutAndroid = "1.8.2"
 uiAndroid = "1.8.2"
+kotlinSerialization = "1.7.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -24,6 +25,7 @@ androidx-runtime-android = { group = "androidx.compose.runtime", name = "runtime
 accompanist-permission = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist-permission"}
 androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 
 [plugins]

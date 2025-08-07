@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.components.FormCheckBoxInput
 import com.wezacare.forms.app.components.FormDropDown
 import com.wezacare.forms.app.model.FormElement
-import com.wezacare.forms.app.components.FormGroup
 import com.wezacare.forms.app.components.FormGroupHeader
 import com.wezacare.forms.app.components.FormImageInput
 import com.wezacare.forms.app.components.FormLinkedDoc
@@ -95,7 +94,8 @@ private fun PreviewExposedDropDown() {
             subLabel = "Use the dropdown to pick the most reliable way for us to contact you",
             optionList = listOf("Samora", "Machel", "Amisi", "Kevin", "Adrian"),
             placeholder = "Select an option",
-            required = true
+            required = true,
+            pageId = "exposed"
         ).Render(formData, { id, value -> }, errors)
     }
 }
@@ -113,7 +113,7 @@ private fun PreviewFormTextInput() {
         val errors = remember { mutableStateMapOf<String, String>() }
 
         FormTextInput(
-            id="email",
+            id = "email",
             label = "What is your Email Address?",
             placeholder = "Your Email Address",
             description = "Please, use your educational email address " +
@@ -122,7 +122,8 @@ private fun PreviewFormTextInput() {
                     "please explain.",
             pageTitle = "Page 2  of 3",
             showPageTitle = true,
-            color = Color.Blue
+            color = Color.Blue,
+            pageId = "email",
         )
             .Render(formData, { id, value  -> formData[id] = value }, errors)
     }
@@ -137,7 +138,7 @@ private fun PreviewFormImageInput() {
         val formData = remember { mutableStateMapOf<String, Any>() }
         val errors = remember { mutableStateMapOf<String, String>() }
 
-        FormImageInput(id = "image", label = "Profile Picture", placeholder = "Select one image from the drive", required = true)
+        FormImageInput(id = "image", label = "Profile Picture", placeholder = "Select one image from the drive", required = true, pageId = "image")
             .Render(formData, { id, value -> formData[id] = value as Any }, errors)
 
     }
@@ -152,7 +153,7 @@ private fun PreviewFormVideoInput() {
         val formData = remember { mutableStateMapOf<String, String>() }
         val errors = remember { mutableStateMapOf<String, String>() }
 
-        FormVideoInput(id = "video", label = "Introduction Video", placeholder = "Select one video from the drive", required = true)
+        FormVideoInput(id = "video", label = "Introduction Video", placeholder = "Select one video from the drive", required = true, pageId = "video")
             .Render(formData, {id, value -> }, errors)
     }
 }
@@ -168,7 +169,7 @@ private fun PreviewCheckBoxInput() {
         val errors = remember { mutableStateMapOf<String, String>() }
 
         FormCheckBoxInput(id = "checkbox", required = true, label = "Which of the following individuals reside in your household",
-            subLabel = "(Select all that apply)", optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian")
+            subLabel = "(Select all that apply)", optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian"), pageId = "checkbox"
         ).Render(formData, {id, value -> }, errors)
     }
 }
@@ -187,7 +188,8 @@ private fun PreviewOptionInput() {
             required = true,
             label = "On a scale from 1 to 5, how would you rate your current level of education",
             subLabel = "(1 being the lowest, 5 being the highest)",
-            optionList = listOf("1", "2", "3", "4", "5")
+            optionList = listOf("1", "2", "3", "4", "5"),
+            pageId = "option"
         ).Render(formData, {id, value -> }, errors)
     }
 }

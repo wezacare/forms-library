@@ -26,7 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.app.tranformer.FormType
+import com.wezacare.forms.app.tranformer.IFormTransformer
 import com.wezacare.forms.core.Icons.MyIconPack
 import com.wezacare.forms.core.Icons.myiconpack.RadioButtonChecked
 import com.wezacare.forms.core.Icons.myiconpack.RadioButtonUnchecked
@@ -38,6 +41,7 @@ import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormOptionInput(
     override val id: String,
+    override val pageId: String,
     override val label: String,
     val optionList: List<String>,
     override val placeholder: String = "",
@@ -49,6 +53,23 @@ data class FormOptionInput(
     val tint: Color = DEFAULT_FORM_COLOR,
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<Int> {
+
+    class Transformer(override val question: QuestionModel) : IFormTransformer {
+        override val type: FormType
+            get() = FormType.OPTION_INPUT
+
+        override fun transform(): FormField<Any> {
+            return FormOptionInput(
+                id = question.id,
+                pageId = question.pageId,
+                label = question.label,
+                placeholder = question.description,
+                optionList = question.options?.map { it.value } ?: emptyList(),
+                required = question.required
+            ) as FormField<Any>
+        }
+    }
+
     override fun validate(value: Int?): String? {
         if (required && (value == null || value == -1)) {
             return "Field cannot be empty"

@@ -39,6 +39,7 @@ import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormVideoInput(
     override val id: String,
+    override val pageId: String,
     override val label: String,
     override val placeholder: String? = "",
     val showPageTitle: Boolean = false,

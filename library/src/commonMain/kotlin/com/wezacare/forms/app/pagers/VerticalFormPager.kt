@@ -25,6 +25,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.wezacare.forms.app.components.FormGroupHeader
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.MultiPageForm
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
@@ -54,13 +55,25 @@ fun VerticalFormPager(
         return valid
     }
 
+
+    val sortedPages = form.pages.sortedBy { it.order }
+
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
             .background(DEFAULT_FORM_COLOR.copy(alpha = 0.07f))
             .padding(16.dp)
     ) {
-        itemsIndexed(form.pages) { index, page ->
+
+        item {
+            FormGroupHeader(
+                id = "header",
+                title = form.formTitle,
+                description = form.formDescription
+            ).Render(values, { id, value -> values[id] = value }, errors)
+        }
+
+        itemsIndexed(sortedPages) { index, page ->
             page.components.forEach { element ->
                 element.Render(values, { id, value -> values[id] = value }, errors)
             }
@@ -72,8 +85,8 @@ fun VerticalFormPager(
                     text = "After section ${index + 1} Continue to next section"
                 )
             }
-
         }
+
 
         item {
             Spacer(Modifier.height(24.dp))

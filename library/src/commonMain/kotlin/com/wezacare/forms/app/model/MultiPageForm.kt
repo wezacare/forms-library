@@ -6,5 +6,7 @@ enum class NavigationMode {
 
 data class MultiPageForm(
     val pages: List<FormPage>,
+    val formTitle: String,
+    val formDescription: String,
     val navigationMode: NavigationMode = NavigationMode.HORIZONTAL
 )
