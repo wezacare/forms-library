@@ -12,6 +12,7 @@ object QuestionFactory {
     fun createFormComponent(questionModel: QuestionModel): IFormTransformer? {
         return when(questionModel.type) {
             "short-text" -> FormTextInput.Transformer(questionModel)
+            "long-text" -> FormTextInput.Transformer(questionModel)
             "dropdown" -> FormDropDown.Transformer(questionModel)
             "checkbox" -> FormCheckBoxInput.Transformer(questionModel)
             "multiple-choice" -> FormOptionInput.Transformer(questionModel)

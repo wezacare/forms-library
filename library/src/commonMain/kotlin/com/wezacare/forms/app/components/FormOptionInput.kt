@@ -63,7 +63,8 @@ data class FormOptionInput(
                 id = question.id,
                 pageId = question.pageId,
                 label = question.label,
-                placeholder = question.description,
+                placeholder = question.placeholder ?: "",
+                subLabel = question.description,
                 optionList = question.options?.map { it.value } ?: emptyList(),
                 required = question.required
             ) as FormField<Any>

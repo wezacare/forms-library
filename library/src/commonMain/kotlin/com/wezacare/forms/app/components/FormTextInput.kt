@@ -62,7 +62,8 @@ data class FormTextInput(
                 id = question.id,
                 pageId = question.pageId,
                 label = question.label,
-                placeholder = question.description,
+                placeholder = question.placeholder,
+                description = question.description,
                 required = question.required,
             ) as FormField<Any>
         }

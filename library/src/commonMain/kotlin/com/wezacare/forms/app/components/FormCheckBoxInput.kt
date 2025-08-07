@@ -68,7 +68,8 @@ data class FormCheckBoxInput (
                 id = question.id,
                 pageId = question.pageId,
                 label = question.label,
-                placeholder = question.description,
+                placeholder = question.placeholder ?: "",
+                subLabel = question.description,
                 required = question.required,
                 optionList = question.options?.map { it.value } ?: emptyList()
             ) as FormField<Any>
