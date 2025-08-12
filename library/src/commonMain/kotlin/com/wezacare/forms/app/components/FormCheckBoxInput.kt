@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.FormTheme
 import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.app.tranformer.FormType
@@ -59,7 +60,7 @@ data class FormCheckBoxInput (
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<List<Int>> {
 
-    class Transformer(override val question: QuestionModel): IFormTransformer {
+    class Transformer(override val question: QuestionModel, override val theme: FormTheme? = null): IFormTransformer {
         override val type: FormType
             get() = FormType.CHECKBOX
 
@@ -70,8 +71,11 @@ data class FormCheckBoxInput (
                 label = question.label,
                 placeholder = question.placeholder ?: "",
                 subLabel = question.description,
+                pageTitle = question.sectionBanner,
+                showPageTitle = question.isFirst,
                 required = question.required,
-                optionList = question.options?.map { it.value } ?: emptyList()
+                optionList = question.options?.map { it.value } ?: emptyList(),
+                tint = theme?._primaryColor
             ) as FormField<Any>
         }
     }

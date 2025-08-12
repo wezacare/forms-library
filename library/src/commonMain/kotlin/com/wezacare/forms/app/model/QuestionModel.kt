@@ -10,6 +10,8 @@ data class QuestionModel(
     val label: String,
     val required: Boolean,
     val description: String,
+    val isFirst: Boolean = false,
+    val sectionBanner: String? = null,
     val placeholder: String? = null,
     val options: List<QuestionOption>? = null
 ) {

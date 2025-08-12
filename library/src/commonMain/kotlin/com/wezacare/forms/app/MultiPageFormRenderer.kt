@@ -27,7 +27,7 @@ fun MultiPageFormRenderer(
 
 
     formData.questions.forEach { question ->
-        val formTransformer = QuestionFactory.createFormComponent(question)
+        val formTransformer = QuestionFactory.createFormComponent(question, formData.theme)
         formTransformer?.let { transformer ->
             components.add(transformer.transform())
         }
@@ -41,7 +41,9 @@ fun MultiPageFormRenderer(
             order = page.order,
             page = page.order,
             formTheme = formData.theme,
-            components = components.filter { component -> component.pageId == page.id },
+            components = components.filter { component ->
+                component.pageId == page.id
+            },
         )
         pages.add(formPage)
     }
@@ -58,7 +60,7 @@ fun MultiPageFormRenderer(
 
     when (multiPageForm.navigationMode) {
         NavigationMode.HORIZONTAL -> HorizontalFormPager(multiPageForm, { onSubmit(values) }, onBackClick, values, errors)
-        NavigationMode.VERTICAL -> VerticalFormPager(multiPageForm, { onSubmit(values) }, values, errors)
+        NavigationMode.VERTICAL -> VerticalFormPager(multiPageForm, { onSubmit(values) }, onBackClick, values, errors)
     }
 
 }

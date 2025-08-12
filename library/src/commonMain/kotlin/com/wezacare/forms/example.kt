@@ -19,11 +19,11 @@ fun MultiPageFormScreen() {
         redirectUrl = "/app/forms/employee-onboarding/thank-you",
         theme = FormTheme(
             primaryColor = "#1a73e8",
-            backgroundColor = "#c6f2feff",
-            textColor = "#111827",
+            backgroundColor = "#ffffff",
+            textColor = "#000000",
             headerImage = FormTheme.HeaderImage(url = "https://picsum.photos/600/100?random=1"),
         ),
-        isVerticalScroll = false,
+        isVerticalScroll = true,
         createAt = "2024-06-01T10:00:00Z",
         updateAt = "2024-06-02T12:00:00Z",
         pages = listOf(
@@ -48,7 +48,7 @@ fun MultiPageFormScreen() {
                 type = "short-text",
                 label = "First Name",
                 required = true,
-                description = "Enter your first name."
+                description = "Enter your first name.",
             ),
             QuestionModel(
                 id = "q1-3",
@@ -56,7 +56,9 @@ fun MultiPageFormScreen() {
                 type = "short-text",
                 label = "Department",
                 required = true,
-                description = "Enter your department."
+                description = "Enter your department.",
+                isFirst = true,
+                sectionBanner = "Section 2 of 2"
             )
         )
     )

@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.FormTheme
 import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.model.ValidationRule
 import com.wezacare.forms.app.tranformer.FormType
@@ -53,7 +54,7 @@ data class FormTextInput(
     override val validators: List<ValidationRule> = emptyList(),
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
 ): FormField<String> {
-    class Transformer(override val question: QuestionModel) : IFormTransformer {
+    class Transformer(override val question: QuestionModel, override val theme: FormTheme? = null) : IFormTransformer {
         override val type: FormType
             get() = FormType.TEXT_INPUT
 
@@ -65,6 +66,9 @@ data class FormTextInput(
                 placeholder = question.placeholder,
                 description = question.description,
                 required = question.required,
+                pageTitle = question.sectionBanner,
+                showPageTitle = question.isFirst,
+                color = theme?._primaryColor ?: DEFAULT_FORM_COLOR
             ) as FormField<Any>
         }
     }
