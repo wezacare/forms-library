@@ -61,7 +61,7 @@ fun VerticalFormPager(
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .background(form.formTheme?._backgroundColor ?: Color.White)
+            .background((form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
             .padding(16.dp)
     ) {
 

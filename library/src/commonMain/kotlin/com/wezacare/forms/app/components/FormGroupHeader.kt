@@ -74,7 +74,7 @@ data class FormGroupHeader (
             Column(
                 modifier = Modifier
                     .background(
-                        primaryColor,
+                        primaryColor.copy(0.7f),
                         RoundedCornerShape(
                             topEnd = corner,
                             topStart = if(pageTitle.isNullOrBlank()) corner else 0.dp,
@@ -94,7 +94,7 @@ data class FormGroupHeader (
                         modifier = Modifier
                             .height(12.dp)
                             .fillMaxWidth()
-                            .background(primaryColor)
+                            .background(primaryColor.copy(0.4f))
                     )
 
                     Text(
