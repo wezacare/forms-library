@@ -61,7 +61,7 @@ fun VerticalFormPager(
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .background(DEFAULT_FORM_COLOR.copy(alpha = 0.07f))
+            .background(form.formTheme?._backgroundColor ?: Color.White)
             .padding(16.dp)
     ) {
 
@@ -69,7 +69,8 @@ fun VerticalFormPager(
             FormGroupHeader(
                 id = "header",
                 title = form.formTitle,
-                description = form.formDescription
+                description = form.formDescription,
+                primaryColor = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
             ).Render(values, { id, value -> values[id] = value }, errors)
         }
 
@@ -109,7 +110,7 @@ fun VerticalFormPager(
                 ) {
                     Text(
                         text = "Submit",
-                        color = DEFAULT_FORM_COLOR
+                        color = form.formTheme?._backgroundColor ?: DEFAULT_FORM_COLOR
                     )
 
                 }
@@ -121,7 +122,7 @@ fun VerticalFormPager(
                 ) {
                     Text(
                         text = "Clear Form",
-                        color = DEFAULT_FORM_COLOR
+                        color = form.formTheme?._backgroundColor ?: DEFAULT_FORM_COLOR
                     )
                 }
             }

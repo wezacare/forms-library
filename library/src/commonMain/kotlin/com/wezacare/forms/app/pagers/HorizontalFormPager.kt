@@ -72,7 +72,7 @@ fun HorizontalFormPager(
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()
-            .background(DEFAULT_FORM_COLOR.copy(alpha = 0.07f))
+            .background(form.formTheme?._backgroundColor ?: Color.White)
             .padding(16.dp)
     ) {
         item {
@@ -108,7 +108,8 @@ fun HorizontalFormPager(
                 FormGroupHeader(
                     id = "header",
                     title = form.formTitle,
-                    description = form.formDescription
+                    description = form.formDescription,
+                    primaryColor = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
                 ).Render(values, { id, value -> values[id] = value }, errors)
             }
         }
@@ -131,14 +132,15 @@ fun HorizontalFormPager(
                             modifier = Modifier.padding(end = 16.dp),
                             contentPadding = PaddingValues(horizontal = 16.dp),
                             colors = ButtonDefaults.outlinedButtonColors().copy(
-                                containerColor = DEFAULT_FORM_COLOR.copy(alpha = 0.3f)
+                                containerColor = (form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR)
+                                    .copy(alpha = 0.3f)
                             ),
                             shape = MaterialTheme.shapes.medium,
                             onClick = { currentPageIndex-- }
                         ) {
                             Text(
                                 text = "Back",
-                                color = DEFAULT_FORM_COLOR
+                                color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
                             )
                         }
                     }
@@ -162,7 +164,7 @@ fun HorizontalFormPager(
                     ) {
                         Text(
                             text = if (currentPageIndex == form.pages.lastIndex) "Submit" else "Next",
-                            color = DEFAULT_FORM_COLOR
+                            color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
                         )
 
                     }
@@ -176,7 +178,7 @@ fun HorizontalFormPager(
                 ) {
                     Text(
                         text = "Clear Form",
-                        color = DEFAULT_FORM_COLOR
+                        color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
                     )
                 }
 

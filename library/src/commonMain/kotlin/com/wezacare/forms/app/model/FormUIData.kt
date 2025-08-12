@@ -3,7 +3,7 @@ package com.wezacare.forms.app.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class FormData(
+data class FormUIData(
     val id: String,
     val title: String,
     val description: String,

@@ -37,6 +37,7 @@ data class FormGroupHeader (
     val title: String,
     val description: String,
     val pageTitle: String? = null,
+    val primaryColor: Color = DEFAULT_FORM_COLOR,
     override val margin: FormMargin = FormMargin(4.dp, 4.dp),
 ): FormDecorator {
 
@@ -73,7 +74,7 @@ data class FormGroupHeader (
             Column(
                 modifier = Modifier
                     .background(
-                        DEFAULT_FORM_COLOR,
+                        primaryColor,
                         RoundedCornerShape(
                             topEnd = corner,
                             topStart = if(pageTitle.isNullOrBlank()) corner else 0.dp,
@@ -93,7 +94,7 @@ data class FormGroupHeader (
                         modifier = Modifier
                             .height(12.dp)
                             .fillMaxWidth()
-                            .background(DEFAULT_FORM_COLOR.copy(alpha = 0.4f))
+                            .background(primaryColor)
                     )
 
                     Text(

@@ -203,6 +203,5 @@ private fun PreviewOptionInput() {
 @Preview(showBackground = true)
 @Composable
 private fun PreviewMultiPageFormScreen() {
-    DEFAULT_FORM_COLOR = Color.Red
     MultiPageFormScreen()
 }

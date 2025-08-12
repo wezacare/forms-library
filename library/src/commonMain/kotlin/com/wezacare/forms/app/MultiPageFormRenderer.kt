@@ -3,19 +3,18 @@ package com.wezacare.forms.app
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
-import com.wezacare.forms.app.model.FormData
+import com.wezacare.forms.app.model.FormUIData
 import com.wezacare.forms.app.model.FormField
 import com.wezacare.forms.app.model.FormPage
 import com.wezacare.forms.app.pagers.HorizontalFormPager
 import com.wezacare.forms.app.pagers.VerticalFormPager
 import com.wezacare.forms.app.model.MultiPageForm
 import com.wezacare.forms.app.model.NavigationMode
-import com.wezacare.forms.app.model.QuestionModel
 import com.wezacare.forms.app.tranformer.QuestionFactory
 
 @Composable
 fun MultiPageFormRenderer(
-    formData: FormData,
+    formData: FormUIData,
     onSubmit: (Map<String, Any>) -> Unit,
     onBackClick: () -> Unit,
 ) {
@@ -53,7 +52,8 @@ fun MultiPageFormRenderer(
         formTitle = formData.title,
         formDescription = formData.description,
         navigationMode = if(formData.isVerticalScroll) NavigationMode.VERTICAL
-            else NavigationMode.HORIZONTAL
+            else NavigationMode.HORIZONTAL,
+        formTheme = formData.theme
     )
 
     when (multiPageForm.navigationMode) {
