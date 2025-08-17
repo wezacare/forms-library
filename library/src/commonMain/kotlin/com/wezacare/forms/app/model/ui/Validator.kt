@@ -1,4 +1,4 @@
-package com.wezacare.forms.app.model
+package com.wezacare.forms.app.model.ui
 
 typealias ValidationRule = (String) -> String?
 

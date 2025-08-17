@@ -12,8 +12,8 @@ import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wezacare.forms.app.model.FormElement
-import com.wezacare.forms.app.model.FormField
+import com.wezacare.forms.app.model.ui.FormElement
+import com.wezacare.forms.app.model.ui.FormField
 
 @Composable
 fun DynamicForm(

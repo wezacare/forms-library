@@ -1,4 +1,4 @@
-package com.wezacare.forms.app.components
+package com.wezacare.forms.app.components.formtypes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -14,11 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wezacare.forms.app.model.FormDecorator
-import com.wezacare.forms.app.model.FormMargin
+import com.wezacare.forms.app.model.ui.FormDecorator
+import com.wezacare.forms.app.model.ui.FormMargin
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 
 data class FormLinkedDoc (

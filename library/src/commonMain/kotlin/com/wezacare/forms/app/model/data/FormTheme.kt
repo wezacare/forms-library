@@ -1,4 +1,4 @@
-package com.wezacare.forms.app.model
+package com.wezacare.forms.app.model.data
 
 import androidx.compose.ui.graphics.Color
 import com.wezacare.forms.core.parseHexColor

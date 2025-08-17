@@ -14,14 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.Reply
-import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardReturn
-import androidx.compose.material.icons.filled.Replay
-import androidx.compose.material.icons.filled.Reply
-import androidx.compose.material.icons.filled.Undo
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,9 +29,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.wezacare.forms.app.components.FormGroupHeader
-import com.wezacare.forms.app.model.FormField
-import com.wezacare.forms.app.model.MultiPageForm
+import com.wezacare.forms.app.components.formtypes.FormGroupHeader
+import com.wezacare.forms.app.model.ui.FormField
+import com.wezacare.forms.app.model.ui.MultiPageForm
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 
@@ -71,9 +64,9 @@ fun HorizontalFormPager(
 
     LazyColumn (
         modifier = Modifier
-            .fillMaxSize()
-            .background((form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .fillMaxWidth()
+//            .background((form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
+
     ) {
         item {
             TextButton(

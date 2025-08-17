@@ -1,4 +1,4 @@
-package com.wezacare.forms.app.model
+package com.wezacare.forms.app.model.data
 
 import kotlinx.serialization.Serializable
 
@@ -10,6 +10,7 @@ data class QuestionModel(
     val label: String,
     val required: Boolean,
     val description: String,
+    val value: String? = null,
     val isFirst: Boolean = false,
     val sectionBanner: String? = null,
     val placeholder: String? = null,

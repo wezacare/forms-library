@@ -1,4 +1,6 @@
-package com.wezacare.forms.app.model
+package com.wezacare.forms.app.model.ui
+
+import com.wezacare.forms.app.model.data.FormTheme
 
 enum class NavigationMode {
     HORIZONTAL, VERTICAL

@@ -1,8 +1,7 @@
-package com.wezacare.forms.app.model
+package com.wezacare.forms.app.model.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 data class FormMargin(
     val top: Dp,

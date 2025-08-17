@@ -1,13 +1,11 @@
 package com.wezacare.forms.app.tranformer
 
-import com.wezacare.forms.app.components.FormCheckBoxInput
-import com.wezacare.forms.app.components.FormDropDown
-import com.wezacare.forms.app.components.FormOptionInput
-import com.wezacare.forms.app.components.FormTextInput
-import com.wezacare.forms.app.model.FormElement
-import com.wezacare.forms.app.model.FormField
-import com.wezacare.forms.app.model.FormTheme
-import com.wezacare.forms.app.model.QuestionModel
+import com.wezacare.forms.app.components.formtypes.FormCheckBoxInput
+import com.wezacare.forms.app.components.formtypes.FormDropDown
+import com.wezacare.forms.app.components.formtypes.FormOptionInput
+import com.wezacare.forms.app.components.formtypes.FormTextInput
+import com.wezacare.forms.app.model.data.FormTheme
+import com.wezacare.forms.app.model.data.QuestionModel
 
 object QuestionFactory {
     fun createFormComponent(questionModel: QuestionModel, formTheme: FormTheme?): IFormTransformer? {

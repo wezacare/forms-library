@@ -1,17 +1,15 @@
-package com.wezacare.forms.app.components
+package com.wezacare.forms.app.components.formtypes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AddPhotoAlternate
 import androidx.compose.material.icons.outlined.Videocam
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,16 +24,14 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.wezacare.forms.app.model.FormField
-import com.wezacare.forms.app.model.FormMargin
-import com.wezacare.forms.app.model.ValidationRule
+import com.wezacare.forms.app.model.ui.FormField
+import com.wezacare.forms.app.model.ui.FormMargin
+import com.wezacare.forms.app.model.ui.ValidationRule
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 import com.wezacare.forms.core.presentation.FormErrorRed
-import com.wezacare.forms.core.presentation.formVioletDark
 
 data class FormVideoInput(
     override val id: String,

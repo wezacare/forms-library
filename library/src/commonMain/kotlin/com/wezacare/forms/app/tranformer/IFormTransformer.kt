@@ -1,8 +1,8 @@
 package com.wezacare.forms.app.tranformer
 
-import com.wezacare.forms.app.model.FormField
-import com.wezacare.forms.app.model.FormTheme
-import com.wezacare.forms.app.model.QuestionModel
+import com.wezacare.forms.app.model.ui.FormField
+import com.wezacare.forms.app.model.data.FormTheme
+import com.wezacare.forms.app.model.data.QuestionModel
 
 interface IFormTransformer {
     val question: QuestionModel

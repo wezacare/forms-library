@@ -1,21 +1,22 @@
 package com.wezacare.forms
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.wezacare.forms.app.MultiPageFormRenderer
-import com.wezacare.forms.app.model.FormUIData
-import com.wezacare.forms.app.model.FormTheme
-import com.wezacare.forms.app.model.PageModel
-import com.wezacare.forms.app.model.QuestionModel
+import com.wezacare.forms.app.model.data.FormSchema
+import com.wezacare.forms.app.model.data.FormTheme
+import com.wezacare.forms.app.model.data.PageModel
+import com.wezacare.forms.app.model.data.QuestionModel
 
 
 @Composable
 fun MultiPageFormScreen() {
 
-    val formData = FormUIData(
+    val formData = FormSchema(
         id = "form-1",
         title = "Employee Onboarding",
         description = "A form to onboard new employees, collect personal and job-related information.",
-        thumbnailUrl = "https://picsum.photos/200/300?random=21",
+        thumbnail = "https://picsum.photos/200/300?random=21",
         redirectUrl = "/app/forms/employee-onboarding/thank-you",
         theme = FormTheme(
             primaryColor = "#1a73e8",
@@ -24,8 +25,8 @@ fun MultiPageFormScreen() {
             headerImage = FormTheme.HeaderImage(url = "https://picsum.photos/600/100?random=1"),
         ),
         isVerticalScroll = true,
-        createAt = "2024-06-01T10:00:00Z",
-        updateAt = "2024-06-02T12:00:00Z",
+        createdAt = "2024-06-01T10:00:00Z",
+        updatedAt = "2024-06-02T12:00:00Z",
         pages = listOf(
             PageModel(
                 id = "p1-1",
@@ -48,6 +49,7 @@ fun MultiPageFormScreen() {
                 type = "short-text",
                 label = "First Name",
                 required = true,
+                placeholder = "Joe Daniel",
                 description = "Enter your first name.",
             ),
             QuestionModel(
@@ -56,13 +58,22 @@ fun MultiPageFormScreen() {
                 type = "short-text",
                 label = "Department",
                 required = true,
+                placeholder = "Eating Department",
                 description = "Enter your department.",
                 isFirst = true,
                 sectionBanner = "Section 2 of 2"
             )
-        )
+        ),
+        isPublished = false,
+        isPublic = true,
+        organisationId = "form-1",
+        createdBy = "Samora Machel"
     )
 
 
-    MultiPageFormRenderer(formData, {}, {})
+    MultiPageFormRenderer(formData, {}, {}, {
+        Text(
+            text = "Samora"
+        )
+    })
 }

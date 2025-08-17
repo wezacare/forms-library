@@ -12,14 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,9 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.wezacare.forms.app.components.FormGroupHeader
-import com.wezacare.forms.app.model.FormField
-import com.wezacare.forms.app.model.MultiPageForm
+import com.wezacare.forms.app.components.formtypes.FormGroupHeader
+import com.wezacare.forms.app.model.ui.FormField
+import com.wezacare.forms.app.model.ui.MultiPageForm
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 
@@ -65,9 +63,8 @@ fun VerticalFormPager(
 
     LazyColumn (
         modifier = Modifier
-            .fillMaxSize()
-            .background((form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
-            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .fillMaxWidth()
+//            .background((form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
     ) {
         item {
             TextButton(

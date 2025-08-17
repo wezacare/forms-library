@@ -1,6 +1,5 @@
 package com.wezacare.forms
 
-import android.graphics.Bitmap
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -11,17 +10,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wezacare.forms.app.components.FormCheckBoxInput
-import com.wezacare.forms.app.components.FormDropDown
-import com.wezacare.forms.app.model.FormElement
-import com.wezacare.forms.app.components.FormGroupHeader
-import com.wezacare.forms.app.components.FormImageInput
-import com.wezacare.forms.app.components.FormLinkedDoc
-import com.wezacare.forms.app.components.FormOptionInput
-import com.wezacare.forms.app.components.FormTextInput
-import com.wezacare.forms.app.components.FormVideoInput
-import com.wezacare.forms.app.model.FormField
-import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
+import com.wezacare.forms.app.components.complementary.CollapsableForm
+import com.wezacare.forms.app.components.complementary.FormTable
+import com.wezacare.forms.app.components.complementary.FormTableItem
+import com.wezacare.forms.app.components.formtypes.FormCheckBoxInput
+import com.wezacare.forms.app.components.formtypes.FormDropDown
+import com.wezacare.forms.app.components.formtypes.FormGroupHeader
+import com.wezacare.forms.app.components.formtypes.FormImageInput
+import com.wezacare.forms.app.components.formtypes.FormLinkedDoc
+import com.wezacare.forms.app.components.formtypes.FormOptionInput
+import com.wezacare.forms.app.components.formtypes.FormTextInput
+import com.wezacare.forms.app.components.formtypes.FormVideoInput
+import com.wezacare.forms.app.model.ui.FormTableData
 
 
 //@Preview(showBackground = true)
@@ -170,7 +170,7 @@ private fun PreviewCheckBoxInput() {
 
         FormCheckBoxInput(id = "checkbox", required = true, label = "Which of the following individuals reside in your household",
             subLabel = "(Select all that apply)", optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian"), pageId = "checkbox"
-        ).Render(formData, {id, value -> }, errors)
+        ).Render(formData, { id, value -> }, errors)
     }
 }
 
@@ -190,9 +190,67 @@ private fun PreviewOptionInput() {
             subLabel = "(1 being the lowest, 5 being the highest)",
             optionList = listOf("1", "2", "3", "4", "5"),
             pageId = "option"
-        ).Render(formData, {id, value -> }, errors)
+        ).Render(formData, { id, value -> }, errors)
     }
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun previewFormTableItem() {
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        FormTableItem(
+            id = "id",
+            title = "Contract Approval Form - XYZ Corp",
+            createdAt = "Sunday 11:43 AM",
+            sent = false,
+            showDate = true,
+            onClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun PreviewFormTable() {
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        val formsData = listOf(
+            FormTableData(
+                id = "id",
+                title = "Child intake form",
+                createdAt = "Sunday 11:43 AM"
+            ),
+            FormTableData(
+                id = "id",
+                title = "Needs Assessment Form",
+                createdAt = "Sunday 11:43 AM",
+            ),
+            FormTableData(
+                id = "id",
+                title = "Contact Approval - Watoto Corp",
+                createdAt = "Sunday 11:43 AM"
+            ),
+            FormTableData(
+                id = "id",
+                title = "Follow up - visit form",
+                createdAt = "Sunday 11:43 AM"
+            )
+
+        )
+
+        CollapsableForm (
+            dateTitle = "Yesterday",
+            forms = formsData,
+            onFormClicked = {},
+            collapsed = true
+        )
+    }
+}
+
+
 
 //@Preview(showBackground = true)
 //@Composable

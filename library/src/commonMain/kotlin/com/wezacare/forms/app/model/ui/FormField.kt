@@ -1,7 +1,4 @@
-package com.wezacare.forms.app.model
-
-import com.wezacare.forms.app.tranformer.FormType
-import com.wezacare.forms.app.tranformer.IFormTransformer
+package com.wezacare.forms.app.model.ui
 
 interface FormField<T>: FormElement<T> {
     val pageId: String
