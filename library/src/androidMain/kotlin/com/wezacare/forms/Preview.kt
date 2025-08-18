@@ -18,6 +18,7 @@ import com.wezacare.forms.app.components.formtypes.FormDropDown
 import com.wezacare.forms.app.components.formtypes.FormGroupHeader
 import com.wezacare.forms.app.components.formtypes.FormImageInput
 import com.wezacare.forms.app.components.formtypes.FormLinkedDoc
+import com.wezacare.forms.app.components.formtypes.FormOption
 import com.wezacare.forms.app.components.formtypes.FormOptionInput
 import com.wezacare.forms.app.components.formtypes.FormTextInput
 import com.wezacare.forms.app.components.formtypes.FormVideoInput
@@ -92,7 +93,12 @@ private fun PreviewExposedDropDown() {
             id = "ExposedDropDown",
             label = "What is your prefered contact method?",
             subLabel = "Use the dropdown to pick the most reliable way for us to contact you",
-            optionList = listOf("Samora", "Machel", "Amisi", "Kevin", "Adrian"),
+            optionList = listOf(
+                FormOption(
+                    label = "samora",
+                    value = "samora"
+                )
+            ),
             placeholder = "Select an option",
             required = true,
             pageId = "exposed"
@@ -169,7 +175,9 @@ private fun PreviewCheckBoxInput() {
         val errors = remember { mutableStateMapOf<String, String>() }
 
         FormCheckBoxInput(id = "checkbox", required = true, label = "Which of the following individuals reside in your household",
-            subLabel = "(Select all that apply)", optionList = listOf("Parent(s)", "Siblings", "Other Relatives", "Guardian"), pageId = "checkbox"
+            subLabel = "(Select all that apply)", optionList = listOf(
+                FormOption("Parents", "parent")
+            ), pageId = "checkbox"
         ).Render(formData, { id, value -> }, errors)
     }
 }
@@ -188,7 +196,9 @@ private fun PreviewOptionInput() {
             required = true,
             label = "On a scale from 1 to 5, how would you rate your current level of education",
             subLabel = "(1 being the lowest, 5 being the highest)",
-            optionList = listOf("1", "2", "3", "4", "5"),
+            optionList = listOf(
+                FormOption(value = "1", label = "1")
+            ),
             pageId = "option"
         ).Render(formData, { id, value -> }, errors)
     }
@@ -241,23 +251,14 @@ private fun PreviewFormTable() {
 
         )
 
-        CollapsableForm (
-            dateTitle = "Yesterday",
+        FormTable (
             forms = formsData,
             onFormClicked = {},
-            collapsed = true
         )
     }
 }
 
 
-
-//@Preview(showBackground = true)
-//@Composable
-//private fun PreviewForm() {
-//    FormScreen()
-//}
-//
 @Preview(showBackground = true)
 @Composable
 private fun PreviewMultiPageFormScreen() {

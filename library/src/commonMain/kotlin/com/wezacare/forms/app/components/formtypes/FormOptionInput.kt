@@ -23,6 +23,7 @@ import com.wezacare.forms.app.model.ui.FormField
 import com.wezacare.forms.app.model.ui.FormMargin
 import com.wezacare.forms.app.model.data.FormTheme
 import com.wezacare.forms.app.model.data.QuestionModel
+import com.wezacare.forms.app.model.data.toFormOption
 import com.wezacare.forms.app.model.ui.ValidationRule
 import com.wezacare.forms.app.tranformer.FormType
 import com.wezacare.forms.app.tranformer.IFormTransformer
@@ -37,7 +38,7 @@ data class FormOptionInput(
     override val id: String,
     override val pageId: String,
     override val label: String,
-    val optionList: List<String>,
+    val optionList: List<FormOption>,
     override val placeholder: String = "",
     val subLabel: String? = null,
     val showPageTitle: Boolean = false,
@@ -61,7 +62,7 @@ data class FormOptionInput(
                 subLabel = question.description,
                 pageTitle = question.sectionBanner,
                 showPageTitle = question.isFirst,
-                optionList = question.options?.map { it.value } ?: emptyList(),
+                optionList = question.options?.map { it.toFormOption() } ?: emptyList(),
                 required = question.required,
                 tint = theme?._primaryColor ?: DEFAULT_FORM_COLOR
             ) as FormField<Any>
@@ -154,7 +155,7 @@ data class FormOptionInput(
             Spacer(modifier = Modifier.size(3.dp))
             optionList.forEachIndexed { index, item ->
                 OptionItem(
-                    optionTitle = item,
+                    optionTitle = item.label,
                     isSelected = index == value,
                     onClick = {
                         onValueChange(id, index)

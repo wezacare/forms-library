@@ -23,6 +23,7 @@ import com.wezacare.forms.app.model.ui.FormField
 import com.wezacare.forms.app.model.ui.FormMargin
 import com.wezacare.forms.app.model.data.FormTheme
 import com.wezacare.forms.app.model.data.QuestionModel
+import com.wezacare.forms.app.model.data.toFormOption
 import com.wezacare.forms.app.model.ui.ValidationRule
 import com.wezacare.forms.app.tranformer.FormType
 import com.wezacare.forms.app.tranformer.IFormTransformer
@@ -37,7 +38,7 @@ data class FormCheckBoxInput (
     override val id: String,
     override val pageId: String,
     override val label: String,
-    val optionList: List<String>,
+    val optionList: List<FormOption>,
     val subLabel: String? = null,
     val showPageTitle: Boolean = false,
     val color: Color = DEFAULT_FORM_COLOR,
@@ -63,7 +64,7 @@ data class FormCheckBoxInput (
                 pageTitle = question.sectionBanner,
                 showPageTitle = question.isFirst,
                 required = question.required,
-                optionList = question.options?.map { it.value } ?: emptyList(),
+                optionList = question.options?.map { it.toFormOption() } ?: emptyList(),
                 tint = theme?._primaryColor
             ) as FormField<Any>
         }
@@ -123,7 +124,7 @@ data class FormCheckBoxInput (
             Spacer(modifier = Modifier.size(3.dp))
             optionList.forEachIndexed { index, item ->
                 CheckBoxItem(
-                    optionTitle = item,
+                    optionTitle = item.label,
                     isSelected = index in value,
                     selectedTint = tint ?: Color.Blue.copy(0.6f),
                     onClick = {

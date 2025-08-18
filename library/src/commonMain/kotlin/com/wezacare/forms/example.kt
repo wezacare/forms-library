@@ -20,8 +20,6 @@ fun MultiPageFormScreen() {
         redirectUrl = "/app/forms/employee-onboarding/thank-you",
         theme = FormTheme(
             primaryColor = "#1a73e8",
-            backgroundColor = "#ffffff",
-            textColor = "#000000",
             headerImage = FormTheme.HeaderImage(url = "https://picsum.photos/600/100?random=1"),
         ),
         isVerticalScroll = true,
@@ -62,6 +60,28 @@ fun MultiPageFormScreen() {
                 description = "Enter your department.",
                 isFirst = true,
                 sectionBanner = "Section 2 of 2"
+            ),
+            QuestionModel(
+                id = "q1-4",
+                pageId = "p2-1",
+                type = "dropdown",
+                label = "Employment",
+                required = true,
+                description = "Enter your department.",
+                options = listOf(
+                    QuestionModel.QuestionOption(
+                        label = "Full-Time",
+                        value = "fulltime"
+                    ),
+                    QuestionModel.QuestionOption(
+                        label = "Part Time",
+                        value = "parttime"
+                    ),
+                    QuestionModel.QuestionOption(
+                        label = "Contract",
+                        value = "contract"
+                    )
+                )
             )
         ),
         isPublished = false,

@@ -1,5 +1,7 @@
 package com.wezacare.forms.app.model.data
 
+import com.wezacare.forms.app.components.formtypes.FormOption
+import com.wezacare.forms.app.model.data.QuestionModel.QuestionOption
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -21,6 +23,13 @@ data class QuestionModel(
         val label: String,
         val value: String
     )
+
+
 }
+
+fun QuestionOption.toFormOption(): FormOption {
+    return FormOption(label, value)
+}
+
 
 

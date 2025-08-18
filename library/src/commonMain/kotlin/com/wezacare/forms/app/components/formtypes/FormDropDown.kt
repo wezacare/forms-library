@@ -41,6 +41,7 @@ import com.wezacare.forms.app.model.ui.FormField
 import com.wezacare.forms.app.model.ui.FormMargin
 import com.wezacare.forms.app.model.data.FormTheme
 import com.wezacare.forms.app.model.data.QuestionModel
+import com.wezacare.forms.app.model.data.toFormOption
 import com.wezacare.forms.app.model.ui.ValidationRule
 import com.wezacare.forms.app.tranformer.FormType
 import com.wezacare.forms.app.tranformer.IFormTransformer
@@ -53,7 +54,7 @@ data class FormDropDown(
     override val id: String,
     override val pageId: String,
     override val label: String,
-    val optionList: List<String>,
+    val optionList: List<FormOption>,
     val subLabel: String? = null,
     val showPageTitle: Boolean = false,
     val color: Color = DEFAULT_FORM_COLOR,
@@ -78,7 +79,7 @@ data class FormDropDown(
                 pageTitle = question.sectionBanner,
                 showPageTitle = question.isFirst,
                 required = question.required,
-                optionList = question.options?.map { it.value } ?: emptyList(),
+                optionList = question.options?.map { it.toFormOption() } ?: emptyList(),
                 color = theme?._primaryColor ?: DEFAULT_FORM_COLOR
             ) as FormField<Any>
         }
@@ -185,9 +186,9 @@ data class FormDropDown(
                 {
                     optionList.forEach { option ->
                         DropdownMenuItem(
-                            text = { Text(option, style = MaterialTheme.typography.bodyMedium) },
+                            text = { Text(option.label, style = MaterialTheme.typography.bodyMedium) },
                             onClick = {
-                                onValueChange(id, option)
+                                onValueChange(id, option.value)
                                 expanded = false
                                 focusManager.clearFocus()
                             }

@@ -1,6 +1,7 @@
 package com.wezacare.forms.app.components.complementary
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,9 +39,11 @@ data class CollapsableFormData(
 fun CollapsableForm(
     dateTitle: String,
     forms: List<CollapsableFormData>,
+    onCollapsed: (Boolean) -> Unit,
     collapsed: Boolean = true,
     modifier: Modifier = Modifier,
 ) {
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -58,7 +61,9 @@ fun CollapsableForm(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                modifier = Modifier.padding(end = 8.dp),
+                modifier = Modifier
+                    .clickable { onCollapsed(!collapsed) }
+                    .padding(end = 8.dp),
                 imageVector =
                     if (!collapsed) Icons.Default.KeyboardArrowUp
                     else Icons.Default.KeyboardArrowDown,
