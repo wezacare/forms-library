@@ -2,6 +2,7 @@ package com.wezacare.forms.app.components.complementary
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -98,39 +99,33 @@ fun FormTableItem(
                         )
                     }
                 }
-
             }
-
-
 
         }
 
 
         if(showDate && sent == false) {
-            Surface(
-                border = BorderStroke(0.7.dp, BorderGray),
-                color = Color.White,
-                shape = MaterialTheme.shapes.small,
-                onClick = { onRetry(id) }
+            Row(
+                modifier = Modifier
+                    .border(0.7.dp, BorderGray, MaterialTheme.shapes.small)
+                    .background(Color.White, MaterialTheme.shapes.small)
+                    .clickable { onRetry(id) }
+                    .padding(vertical = 6.dp, horizontal = 8.dp)
             ) {
-                Row(
-                    modifier = Modifier.padding(vertical = 6.dp, horizontal = 8.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.size(14.dp),
-                        imageVector = Icons.Default.Refresh,
-                        contentDescription = "",
-                        tint = Color.DarkGray
-                    )
+                Icon(
+                    modifier = Modifier.size(14.dp),
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = "",
+                    tint = Color.DarkGray
+                )
 
 
-                    Text(
-                        modifier = Modifier.padding(start = 4.dp),
-                        text = "Retry",
-                        color = Color.DarkGray,
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
+                Text(
+                    modifier = Modifier.padding(start = 4.dp),
+                    text = "Retry",
+                    color = Color.DarkGray,
+                    style = MaterialTheme.typography.bodySmall
+                )
             }
         }
     }

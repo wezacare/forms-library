@@ -1,8 +1,10 @@
 package com.wezacare.forms
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -209,6 +211,7 @@ private fun PreviewOptionInput() {
 private fun previewFormTableItem() {
     Column(
         modifier = Modifier.padding(16.dp)
+            .border(1.dp, Color.Gray, RoundedCornerShape(10.dp))
     ) {
         FormTableItem(
             id = "id",
