@@ -91,9 +91,11 @@ fun MultiPageFormScreen() {
     )
 
 
-    MultiPageFormRenderer(formData, {}, {}, {
+    MultiPageFormRenderer(
+        formData, {}, {}
+    ){
         Text(
             text = "Samora"
         )
-    })
+    }
 }

@@ -24,15 +24,12 @@ fun MultiPageFormRenderer(
     formData: FormSchema,
     onSubmit: (Map<String, Any>) -> Unit,
     onBackClick: () -> Unit,
+    values: MutableMap<String, Any> = remember { mutableStateMapOf() },
+    errors: MutableMap<String, String?> = remember { mutableStateMapOf() },
     footer: @Composable ColumnScope.() -> Unit,
 ) {
-
-    val values: MutableMap<String, Any> = remember { mutableStateMapOf() }
-    val errors: MutableMap<String, String?> = remember { mutableStateMapOf() }
     val pages: MutableList<FormPage> = mutableListOf()
     val components : MutableList<FormField<Any>> = mutableListOf()
-
-
 
     formData.questions.forEach { question ->
         val formTransformer = QuestionFactory.createFormComponent(question, formData.theme)
