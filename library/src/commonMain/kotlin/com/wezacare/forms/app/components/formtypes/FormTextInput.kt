@@ -142,7 +142,7 @@ data class FormTextInput(
                     onValueChange(id, it)
                 },
                 textStyle = TextStyle(
-                    fontSize = 13.sp
+                    fontSize = 13.sp,
                 ),
                 cursorBrush = SolidColor(Color.DarkGray),
                 decorationBox = { innerTextField ->
@@ -157,9 +157,8 @@ data class FormTextInput(
                                 color = FormBorderGray,
                                 fontSize = 13.sp
                             )
-                        } else {
-                            innerTextField()
                         }
+                        innerTextField()
                     }
                 }
             )

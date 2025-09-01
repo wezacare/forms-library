@@ -83,7 +83,7 @@ data class FormGroupHeader (
                     modifier = Modifier
                         .background(Color.White, MaterialTheme.shapes.small)
                         .clip(MaterialTheme.shapes.small)
-                        .border(1.dp, FormBorderGray, MaterialTheme.shapes.small)
+                        .border(0.4.dp, FormBorderGray, MaterialTheme.shapes.small)
                         .fillMaxWidth()
                 ) {
                     Box(

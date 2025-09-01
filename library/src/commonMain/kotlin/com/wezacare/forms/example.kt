@@ -7,6 +7,7 @@ import com.wezacare.forms.app.model.data.FormSchema
 import com.wezacare.forms.app.model.data.FormTheme
 import com.wezacare.forms.app.model.data.PageModel
 import com.wezacare.forms.app.model.data.QuestionModel
+import com.wezacare.forms.app.model.ui.ViewMode
 
 
 @Composable
@@ -138,7 +139,9 @@ fun MultiPageFormScreen() {
 
 
     MultiPageFormRenderer(
-        formData, {}, {}
+        formData,
+        viewMode = ViewMode.READONLY,
+        {}, {}
     ){
         Text(
             text = "Samora"
