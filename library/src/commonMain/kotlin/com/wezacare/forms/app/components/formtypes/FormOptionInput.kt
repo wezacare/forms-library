@@ -47,7 +47,7 @@ data class FormOptionInput(
     override val validators: List<ValidationRule> = emptyList(),
     val tint: Color = DEFAULT_FORM_COLOR,
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
-): FormField<Int> {
+): FormField<String> {
 
     class Transformer(override val question: QuestionModel, override val theme: FormTheme? = null) : IFormTransformer {
         override val type: FormType
@@ -69,8 +69,8 @@ data class FormOptionInput(
         }
     }
 
-    override fun validate(value: Int?): String? {
-        if (required && (value == null || value == -1)) {
+    override fun validate(value: String?): String? {
+        if (required && value.isNullOrBlank()) {
             return "Field cannot be empty"
         }
         return null
@@ -111,10 +111,10 @@ data class FormOptionInput(
     @Composable
     override fun Render(
         values: Map<String, Any>,
-        onValueChange: (String, Int) -> Unit,
+        onValueChange: (String, String) -> Unit,
         errors: Map<String, String?>
     ) {
-        val value = values[id] as? Int ?: -1
+        val value = values[id] as? String
         val error = errors[id]
 
         Spacer(modifier = Modifier.size(margin.top))
@@ -156,9 +156,9 @@ data class FormOptionInput(
             optionList.forEachIndexed { index, item ->
                 OptionItem(
                     optionTitle = item.label,
-                    isSelected = index == value,
+                    isSelected = item.value == value,
                     onClick = {
-                        onValueChange(id, index)
+                        onValueChange(id, item.value)
                     },
                     selectedTint = when(tint) {
                         null -> Color.Blue.copy(0.6f)

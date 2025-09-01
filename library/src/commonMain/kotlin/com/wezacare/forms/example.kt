@@ -82,13 +82,59 @@ fun MultiPageFormScreen() {
                         value = "contract"
                     )
                 )
-            )
+            ),
+            QuestionModel(
+                id = "q1-5",
+                pageId = "p2-1",
+                type = "checkbox",
+                label = "Employment",
+                required = true,
+                description = "Enter your department.",
+                options = listOf(
+                    QuestionModel.QuestionOption(
+                        label = "Full-Time",
+                        value = "fulltime"
+                    ),
+                    QuestionModel.QuestionOption(
+                        label = "Part Time",
+                        value = "parttime"
+                    ),
+                    QuestionModel.QuestionOption(
+                        label = "Contract",
+                        value = "contract"
+                    )
+                )
+            ),
+            QuestionModel(
+                id = "q1-5",
+                pageId = "p2-1",
+                type = "multiple-choice",
+                label = "Employment",
+                required = true,
+                description = "Enter your department.",
+                options = listOf(
+                    QuestionModel.QuestionOption(
+                        label = "Full-Time",
+                        value = "fulltime"
+                    ),
+                    QuestionModel.QuestionOption(
+                        label = "Part Time",
+                        value = "parttime"
+                    ),
+                    QuestionModel.QuestionOption(
+                        label = "Contract",
+                        value = "contract"
+                    )
+                )
+            ),
         ),
         isPublished = false,
         isPublic = true,
         organisationId = "form-1",
         createdBy = "Samora Machel"
     )
+
+
 
 
     MultiPageFormRenderer(

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.remember
@@ -68,6 +69,10 @@ fun MultiPageFormRenderer(
             .background((formData.theme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
             .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
+        Text(
+            text = "${values.map { it.value }}"
+        )
+
         when (multiPageForm.navigationMode) {
             NavigationMode.HORIZONTAL -> HorizontalFormPager(multiPageForm, { onSubmit(values) }, onBackClick, values, errors)
             NavigationMode.VERTICAL -> VerticalFormPager(multiPageForm, { onSubmit(values) }, onBackClick, values, errors)

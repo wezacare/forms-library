@@ -48,7 +48,7 @@ data class FormCheckBoxInput (
     override val validators: List<ValidationRule> = emptyList(),
     val tint : Color? = null,
     override val margin: FormMargin = FormMargin(4.dp, 4.dp)
-): FormField<List<Int>> {
+): FormField<String> {
 
     class Transformer(override val question: QuestionModel, override val theme: FormTheme? = null): IFormTransformer {
         override val type: FormType
@@ -70,7 +70,7 @@ data class FormCheckBoxInput (
         }
     }
 
-    override fun validate(value: List<Int>?): String? {
+    override fun validate(value: String?): String? {
         if(required && value.isNullOrEmpty()) {
             return "Field cannot be empty"
         }
@@ -80,10 +80,11 @@ data class FormCheckBoxInput (
     @Composable
     override fun Render(
         values: Map<String, Any>,
-        onValueChange: (String, List<Int>) -> Unit,
+        onValueChange: (String, String) -> Unit,
         errors: Map<String, String?>
     ) {
-        val value = values[id] as? List<Int> ?: listOf()
+        val stringValue = values[id] as? String
+        val listValue = stringValue?.split(",") ?: listOf()
         val error = errors[id]
 
         Spacer(modifier = Modifier.size(margin.top))
@@ -125,18 +126,18 @@ data class FormCheckBoxInput (
             optionList.forEachIndexed { index, item ->
                 CheckBoxItem(
                     optionTitle = item.label,
-                    isSelected = index in value,
+                    isSelected = item.value in listValue,
                     selectedTint = tint ?: Color.Blue.copy(0.6f),
                     onClick = {
-                        val _checkItems = mutableListOf<Int>()
-                        value.forEach { _checkItems.add(it) }
+                        val _checkItems = mutableListOf<String>()
+                        listValue.forEach { _checkItems.add(it) }
 
-                        if(index in value) {
-                            _checkItems.remove(index)
+                        if(item.value in listValue) {
+                            _checkItems.remove(item.value)
                         } else {
-                            _checkItems.add(index)
+                            _checkItems.add(item.value)
                         }
-                        onValueChange(id, _checkItems)
+                        onValueChange(id, _checkItems.joinToString(separator = ","))
                     },
 
                 )
