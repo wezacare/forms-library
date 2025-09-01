@@ -32,12 +32,14 @@ import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.components.formtypes.FormGroupHeader
 import com.wezacare.forms.app.model.ui.FormField
 import com.wezacare.forms.app.model.ui.MultiPageForm
+import com.wezacare.forms.app.model.ui.ViewMode
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 
 @Composable
 fun HorizontalFormPager(
     form: MultiPageForm,
+    viewMode: ViewMode,
     onSubmit: () -> Unit,
     onBackClick: () -> Unit,
     values: MutableMap<String, Any> = remember { mutableStateMapOf() },
@@ -145,18 +147,24 @@ fun HorizontalFormPager(
                         ),
                         shape = MaterialTheme.shapes.medium,
                         onClick = {
-                            if (validatePage()) {
-                                if (currentPageIndex < form.pages.lastIndex) {
-                                    currentPageIndex++
-                                } else {
-                                    onSubmit()
-                                    println("Final submission: $values")
+                            if(viewMode == ViewMode.EDIT) {
+                                if (validatePage()) {
+                                    if (currentPageIndex < form.pages.lastIndex)
+                                        currentPageIndex++
+                                    else onSubmit()
                                 }
+                            } else {
+                                if (currentPageIndex < form.pages.lastIndex)
+                                    currentPageIndex++
+                                else onSubmit()
                             }
+
                         }
                     ) {
                         Text(
-                            text = if (currentPageIndex == form.pages.lastIndex) "Submit" else "Next",
+                            text = if (currentPageIndex == form.pages.lastIndex)
+                                if(viewMode == ViewMode.EDIT) "Submit" else "Exit"
+                            else "Next",
                             color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
                         )
 
@@ -164,21 +172,20 @@ fun HorizontalFormPager(
 
                 }
 
-                TextButton(
-                    onClick = {
-                        values.clear()
+                if(viewMode == ViewMode.EDIT) {
+                    TextButton(
+                        onClick = {
+                            values.clear()
+                        }
+                    ) {
+                        Text(
+                            text = "Clear Form",
+                            color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
+                        )
                     }
-                ) {
-                    Text(
-                        text = "Clear Form",
-                        color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
-                    )
                 }
-
             }
         }
-
-
     }
 
 }

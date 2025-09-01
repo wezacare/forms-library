@@ -17,12 +17,14 @@ import com.wezacare.forms.app.pagers.HorizontalFormPager
 import com.wezacare.forms.app.pagers.VerticalFormPager
 import com.wezacare.forms.app.model.ui.MultiPageForm
 import com.wezacare.forms.app.model.ui.NavigationMode
+import com.wezacare.forms.app.model.ui.ViewMode
 import com.wezacare.forms.app.tranformer.QuestionFactory
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 
 @Composable
 fun MultiPageFormRenderer(
     formData: FormSchema,
+    viewMode: ViewMode,
     onSubmit: (Map<String, Any>) -> Unit,
     onBackClick: () -> Unit,
     values: MutableMap<String, Any> = remember { mutableStateMapOf() },
@@ -69,13 +71,9 @@ fun MultiPageFormRenderer(
             .background((formData.theme?._primaryColor ?: DEFAULT_FORM_COLOR).copy(alpha = 0.07f))
             .padding(vertical = 8.dp, horizontal = 16.dp)
     ) {
-        Text(
-            text = "${values.map { it.value }}"
-        )
-
         when (multiPageForm.navigationMode) {
-            NavigationMode.HORIZONTAL -> HorizontalFormPager(multiPageForm, { onSubmit(values) }, onBackClick, values, errors)
-            NavigationMode.VERTICAL -> VerticalFormPager(multiPageForm, { onSubmit(values) }, onBackClick, values, errors)
+            NavigationMode.HORIZONTAL -> HorizontalFormPager(multiPageForm, viewMode, { onSubmit(values) }, onBackClick, values, errors)
+            NavigationMode.VERTICAL -> VerticalFormPager(multiPageForm, viewMode, { onSubmit(values) }, onBackClick, values, errors)
         }
 
         footer()

@@ -57,12 +57,12 @@ fun CollapsableForm(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { onCollapsed(!collapsed) }
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 modifier = Modifier
-                    .clickable { onCollapsed(!collapsed) }
                     .padding(end = 8.dp),
                 imageVector =
                     if (!collapsed) Icons.Default.KeyboardArrowUp

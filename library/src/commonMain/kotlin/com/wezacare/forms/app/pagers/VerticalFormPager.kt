@@ -29,12 +29,14 @@ import androidx.compose.ui.unit.dp
 import com.wezacare.forms.app.components.formtypes.FormGroupHeader
 import com.wezacare.forms.app.model.ui.FormField
 import com.wezacare.forms.app.model.ui.MultiPageForm
+import com.wezacare.forms.app.model.ui.ViewMode
 import com.wezacare.forms.core.presentation.DEFAULT_FORM_COLOR
 import com.wezacare.forms.core.presentation.FormBorderGray
 
 @Composable
 fun VerticalFormPager(
     form: MultiPageForm,
+    viewMode: ViewMode,
     onSubmit: () -> Unit,
     onBackClick: () -> Unit,
     values: MutableMap<String, Any> = remember { mutableStateMapOf() },
@@ -132,28 +134,35 @@ fun VerticalFormPager(
                     ),
                     shape = MaterialTheme.shapes.medium,
                     onClick = {
-                        if (validateAllPage()) {
-                            onSubmit()
+                        if(viewMode == ViewMode.EDIT) {
+                            if (validateAllPage()) {
+                                onSubmit()
+                            }
+                        } else {
+                            onBackClick()
                         }
                     }
                 ) {
                     Text(
-                        text = "Submit",
+                        text = if(viewMode == ViewMode.EDIT) "Submit" else "Exit",
                         color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
                     )
 
                 }
 
-                TextButton(
-                    onClick = {
-                        values.clear()
-                    },
-                ) {
-                    Text(
-                        text = "Clear Form",
-                        color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
-                    )
+                if(viewMode == ViewMode.EDIT) {
+                    TextButton(
+                        onClick = {
+                            values.clear()
+                        },
+                    ) {
+                        Text(
+                            text = "Clear Form",
+                            color = form.formTheme?._primaryColor ?: DEFAULT_FORM_COLOR
+                        )
+                    }
                 }
+
             }
 
         }
