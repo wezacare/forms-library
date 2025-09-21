@@ -53,15 +53,15 @@ data class FormOptionInput(
         override val type: FormType
             get() = FormType.OPTION_INPUT
 
-        override fun transform(): FormField<Any> {
+        override fun transform(sectionTitle: String?): FormField<Any> {
             return FormOptionInput(
                 id = question.id,
                 pageId = question.pageId,
                 label = question.label,
                 placeholder = question.placeholder ?: "",
                 subLabel = question.description,
-                pageTitle = question.sectionBanner,
-                showPageTitle = question.isFirst,
+                pageTitle = sectionTitle,
+                showPageTitle = !sectionTitle.isNullOrBlank(),
                 optionList = question.options?.map { it.toFormOption() } ?: emptyList(),
                 required = question.required,
                 tint = theme?._primaryColor ?: DEFAULT_FORM_COLOR

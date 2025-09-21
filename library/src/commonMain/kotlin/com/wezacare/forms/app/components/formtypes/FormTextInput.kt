@@ -53,7 +53,7 @@ data class FormTextInput(
         override val type: FormType
             get() = FormType.TEXT_INPUT
 
-        override fun transform(): FormField<Any> {
+        override fun transform(sectionTitle: String?): FormField<Any> {
             return FormTextInput(
                 id = question.id,
                 pageId = question.pageId,
@@ -61,8 +61,8 @@ data class FormTextInput(
                 placeholder = question.placeholder,
                 description = question.description,
                 required = question.required,
-                pageTitle = question.sectionBanner,
-                showPageTitle = question.isFirst,
+                pageTitle = sectionTitle,
+                showPageTitle = !sectionTitle.isNullOrBlank(),
                 color = theme?._primaryColor ?: DEFAULT_FORM_COLOR
             ) as FormField<Any>
         }

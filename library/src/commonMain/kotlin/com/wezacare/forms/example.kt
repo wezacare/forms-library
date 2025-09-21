@@ -36,7 +36,7 @@ fun MultiPageFormScreen() {
             PageModel(
                 id = "p2-1",
                 title = "Personal Information",
-                order = 0,
+                order = 1,
                 formId =  "form-1"
             )
 
@@ -59,8 +59,6 @@ fun MultiPageFormScreen() {
                 required = true,
                 placeholder = "Eating Department",
                 description = "Enter your department.",
-                isFirst = true,
-                sectionBanner = "Section 2 of 2"
             ),
             QuestionModel(
                 id = "q1-4",

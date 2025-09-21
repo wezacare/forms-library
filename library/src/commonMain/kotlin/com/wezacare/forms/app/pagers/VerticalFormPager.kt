@@ -114,7 +114,7 @@ fun VerticalFormPager(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp, bottom = 24.dp),
-                    text = "After section ${index + 1} Continue to next section"
+                    text = "After page ${index + 1} Continue to next section"
                 )
             }
         }

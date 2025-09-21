@@ -80,11 +80,11 @@ fun CollapsableForm(
             }
         }
         if(!collapsed) {
-            LazyColumn(
+            Column(
                 modifier = modifier
                     .border(0.7.dp, BorderGray, RoundedCornerShape(5.dp))
             ) {
-                itemsIndexed(forms) { index, form ->
+                forms.forEachIndexed { index, form ->
                     FormTableItem(
                         modifier = Modifier.topBorder(
                             if(index == 0) 0.dp else 0.7.dp,
@@ -99,7 +99,6 @@ fun CollapsableForm(
                         showDate = form.showDate
                     )
                 }
-
             }
         }
 

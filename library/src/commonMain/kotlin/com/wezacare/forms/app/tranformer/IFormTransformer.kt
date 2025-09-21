@@ -8,5 +8,5 @@ interface IFormTransformer {
     val question: QuestionModel
     val type: FormType
     val theme: FormTheme?
-    fun transform(): FormField<Any>
+    fun transform(sectionTitle: String? = null): FormField<Any>
 }

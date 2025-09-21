@@ -69,15 +69,15 @@ data class FormDropDown(
         override val type: FormType
             get() = FormType.DROPDOWN
 
-        override fun transform(): FormField<Any> {
+        override fun transform(sectionTitle: String?): FormField<Any> {
             return FormDropDown(
                 id = question.id,
                 pageId = question.pageId,
                 label = question.label,
                 placeholder = question.placeholder ?: "",
                 subLabel = question.description,
-                pageTitle = question.sectionBanner,
-                showPageTitle = question.isFirst,
+                pageTitle = sectionTitle,
+                showPageTitle = !sectionTitle.isNullOrBlank(),
                 required = question.required,
                 optionList = question.options?.map { it.toFormOption() } ?: emptyList(),
                 color = theme?._primaryColor ?: DEFAULT_FORM_COLOR

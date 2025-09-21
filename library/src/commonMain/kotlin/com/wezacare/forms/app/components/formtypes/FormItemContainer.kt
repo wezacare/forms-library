@@ -49,7 +49,7 @@ fun FormItemContainer(
             ){
                 Text(
                     text = page,
-                    color = Color.LightGray
+                    color = Color.White
                 )
             }
         }

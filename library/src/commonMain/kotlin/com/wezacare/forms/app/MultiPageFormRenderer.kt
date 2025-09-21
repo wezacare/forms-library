@@ -33,11 +33,25 @@ fun MultiPageFormRenderer(
 ) {
     val pages: MutableList<FormPage> = mutableListOf()
     val components : MutableList<FormField<Any>> = mutableListOf()
+    val pageTracker: MutableList<String> = mutableListOf()
+
 
     formData.questions.forEach { question ->
         val formTransformer = QuestionFactory.createFormComponent(question, formData.theme)
         formTransformer?.let { transformer ->
-            components.add(transformer.transform())
+            if(transformer.question.pageId in pageTracker) {
+                components.add(transformer.transform())
+            } else {
+                val totalPages = formData.pages.size
+                val pageOrder = formData.pages.find { it.id == transformer.question.pageId }
+                if(pageOrder == null || pageOrder.order == 0) {
+                    components.add(transformer.transform())
+                } else {
+                    components.add(transformer.transform("Page ${pageOrder.order + 1} of $totalPages"))
+                }
+                pageTracker.add(transformer.question.pageId)
+            }
+
         }
     }
 
